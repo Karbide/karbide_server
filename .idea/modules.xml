@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Bluoh.iml" filepath="$PROJECT_DIR$/Bluoh.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Bluohapi/Bluohapi.iml" filepath="$PROJECT_DIR$/Bluohapi/Bluohapi.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Bluohcore/Bluohcore.iml" filepath="$PROJECT_DIR$/Bluohcore/Bluohcore.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Bluohweb/Bluohweb.iml" filepath="$PROJECT_DIR$/Bluohweb/Bluohweb.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Bluohwebadmin/Bluohwebadmin.iml" filepath="$PROJECT_DIR$/Bluohwebadmin/Bluohwebadmin.iml" />
+    </modules>
+  </component>
+</project>
