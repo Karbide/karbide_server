@@ -20,7 +20,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.bluoh</groupId>
-			<artifactId>jcart-core</artifactId>
+			<artifactId>bluoh-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
@@ -33,9 +33,6 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-	</dependencies>
-
-
-
+    </dependencies>
 
 </project>
