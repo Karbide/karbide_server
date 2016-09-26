@@ -28,13 +28,13 @@ public class CardController {
 
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	public Card createBook(@RequestBody @Valid Card card) {
+	public Card createCard(@RequestBody @Valid Card card) {
 		Card created = service.create(card);
 		return created;
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/{cardId}")
-	public Card getBookDetails(@PathVariable("cardId") String cardId) {
+	public Card getCardDetails(@PathVariable("cardId") String cardId) {
 		return service.findById(cardId);
 	}
 
@@ -52,7 +52,7 @@ public class CardController {
 	}*/
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public Map<String, Object> getAllBooks() {
+	public Map<String, Object> getAllCards() {
 		List<Card> cards = service.findAll();
 		Map<String, Object> response = new LinkedHashMap<String, Object>();
 		response.put("totalBooks", cards.size());

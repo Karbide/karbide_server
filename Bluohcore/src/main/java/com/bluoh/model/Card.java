@@ -1,6 +1,5 @@
 package com.bluoh.model;
 
-import org.bson.types.ObjectId;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -10,14 +9,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Arrays;
 import java.util.Date;
 
 @Document
 public final class Card {
 
 	@Id
-	private ObjectId id;
+	private String id;
+	private long deckId;
 	@NotBlank(message="User Id cannot be blank")
 	@CreatedBy
 	private String userId;
@@ -30,13 +29,14 @@ public final class Card {
 	@NotBlank(message = "Source can not be empty.")
 	private String source;
 	@NotNull(message = "Category can not be empty.")
-	private String category[];
+	private Categories category;
 	@NotNull(message = "Tags can not be empty.")
-	private String tags[];
+	private Tags tags;
 	@NotBlank(message = "Image can not be empty.")
 	private String imageUrl;
 	private String template;
 	private String status;
+	private Survey survey;
 	@CreatedDate
 	private Date createdTime;
 	@LastModifiedDate
@@ -45,9 +45,9 @@ public final class Card {
 	public Card(){	
 	}
 
-	public Card(ObjectId id,String userId, String title, String content, String author, String source, String[] category, String[] tags, String imageUrl, String template, String status, Date createdTime, Date modifiedTime) {
-		super();
-		this.id= id;
+	public Card(String id, long deckId, String userId, String title, String content, String author, String source, Categories category, Tags tags, String imageUrl, String template, String status, Survey survey, Date createdTime, Date modifiedTime) {
+		this.id = id;
+		this.deckId = deckId;
 		this.userId = userId;
 		this.title = title;
 		this.content = content;
@@ -58,18 +58,27 @@ public final class Card {
 		this.imageUrl = imageUrl;
 		this.template = template;
 		this.status = status;
+		this.survey = survey;
 		this.createdTime = createdTime;
 		this.modifiedTime = modifiedTime;
 	}
 
 	public String getId() {
-		return id.toString();
+		return id;
 	}
 
 	public void setId(String id) {
-		this.id = new ObjectId(id);
+		this.id = id;
 	}
-	
+
+	public long getDeckId() {
+		return deckId;
+	}
+
+	public void setDeckId(long deckId) {
+		this.deckId = deckId;
+	}
+
 	public String getUserId() {
 		return userId;
 	}
@@ -110,19 +119,19 @@ public final class Card {
 		this.source = source;
 	}
 
-	public String[] getCategory() {
+	public Categories getCategory() {
 		return category;
 	}
 
-	public void setCategory(String[] category) {
+	public void setCategory(Categories category) {
 		this.category = category;
 	}
 
-	public String[] getTags() {
+	public Tags getTags() {
 		return tags;
 	}
 
-	public void setTags(String[] tags) {
+	public void setTags(Tags tags) {
 		this.tags = tags;
 	}
 
@@ -150,6 +159,14 @@ public final class Card {
 		this.status = status;
 	}
 
+	public Survey getSurvey() {
+		return survey;
+	}
+
+	public void setSurvey(Survey survey) {
+		this.survey = survey;
+	}
+
 	public Date getCreatedTime() {
 		return createdTime;
 	}
@@ -168,7 +185,22 @@ public final class Card {
 
 	@Override
 	public String toString() {
-		return "Card [id=" + id + ", userId=" + userId + ", title=" + title + ", content=" + content + ", author=" + author + ", source=" + source + ", category=" + Arrays.toString(category) + ", tags="
-				+ Arrays.toString(tags) + ", imageUrl=" + imageUrl + ", template=" + template + ", status=" + status + ", createdTime=" + createdTime + ", modifiedTime=" + modifiedTime + "]";
+		return "Card{" +
+				"id=" + id +
+				", deckId=" + deckId +
+				", userId='" + userId + '\'' +
+				", title='" + title + '\'' +
+				", content='" + content + '\'' +
+				", author='" + author + '\'' +
+				", source='" + source + '\'' +
+				", category=" + category +
+				", tags=" + tags +
+				", imageUrl='" + imageUrl + '\'' +
+				", template='" + template + '\'' +
+				", status='" + status + '\'' +
+				", survey=" + survey +
+				", createdTime=" + createdTime +
+				", modifiedTime=" + modifiedTime +
+				'}';
 	}
 }

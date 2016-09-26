@@ -1,8 +1,10 @@
 package com.bluoh.service.impl;
 
 import com.bluoh.model.Card;
+import com.bluoh.model.Tags;
 import com.bluoh.repository.CardRepository;
 import com.bluoh.service.CardService;
+import com.bluoh.service.SequenceService;
 import com.bluoh.utils.CardNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +26,9 @@ final class CardServiceImpl implements CardService {
 	private final CardRepository repository;
 
 	@Autowired
+	private SequenceService sequenceService;
+
+	@Autowired
 	CardServiceImpl(CardRepository repository) {
 		this.repository = repository;
 	}
@@ -31,7 +36,11 @@ final class CardServiceImpl implements CardService {
 	@Override
 	public Card create(Card card) {
 		LOGGER.info("Creating a new card entry with information: {}", card);
-		
+		if(card.getDeckId() == 0){
+			card.setDeckId(sequenceService.getNextSequenceId("deckId"));
+		}
+		Tags tags = card.getTags();
+
 		Card persisted = repository.save(card);
 		LOGGER.info("Created a new card entry with information: {}", persisted);
 
@@ -99,11 +108,11 @@ final class CardServiceImpl implements CardService {
 		return true;
 	}*/
 	
-	public void copyNonNullProperties(Object src, Object target){
+	private void copyNonNullProperties(Object src, Object target){
 		BeanUtils.copyProperties(src, target, getNullPropertyNames(src));
 	}
 	
-	public String[] getNullPropertyNames (Object source) {
+	private String[] getNullPropertyNames (Object source) {
 	    final BeanWrapper src = new BeanWrapperImpl(source);
 	    java.beans.PropertyDescriptor[] pds = src.getPropertyDescriptors();
 
