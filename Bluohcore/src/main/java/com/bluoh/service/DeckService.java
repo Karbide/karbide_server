@@ -14,5 +14,5 @@ public interface DeckService {
 
     List<Deck> findAll();
 
-    Deck findById(String id);
+    Deck findById(long id);
 }

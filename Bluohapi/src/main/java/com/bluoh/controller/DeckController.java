@@ -31,9 +31,9 @@ public class DeckController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/{deckId}")
     @ResponseStatus(HttpStatus.FOUND)
-    public Deck GetDeck(@PathVariable("cardId") String cardId){
-
-        return null;
+    public Deck GetDeck(@PathVariable("deckId") long deckId){
+        Deck response = service.findById(deckId);
+        return response;
     }
 
 }

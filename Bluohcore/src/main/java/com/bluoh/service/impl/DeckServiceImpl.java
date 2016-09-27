@@ -7,6 +7,8 @@ import com.bluoh.service.DeckService;
 import com.bluoh.service.SequenceService;
 import com.bluoh.utils.SequenceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,6 +31,7 @@ final class DeckServiceImpl implements DeckService {
     public Deck create(Deck deck) throws SequenceException{
         Deck deck1 = new Deck();
         long sequenceId = sequenceService.getNextSequenceId("deckId");
+        deck1.setDeckId(sequenceId);
         for(Card card : deck.getCards()){
             card.setDeckId(sequenceId);
             deck1.addCard(cardService.create(card));
@@ -40,7 +43,9 @@ final class DeckServiceImpl implements DeckService {
     public Deck delete(String id) {
 
         Deck response = new Deck();
-
+        Query query = new Query();
+        query.addCriteria(Criteria.where("deckId").in(id));
+        List<Card> cards = cardService.find(query);
         return response;
     }
 
@@ -50,7 +55,13 @@ final class DeckServiceImpl implements DeckService {
     }
 
     @Override
-    public Deck findById(String id) {
-        return null;
+    public Deck findById(long id) {
+        Deck response = new Deck();
+        Query query = new Query();
+        query.addCriteria(Criteria.where("deckId").in(id));
+        List<Card> cards = cardService.find(query);
+        response.setCards(cards);
+        response.setDeckId(id);
+        return response;
     }
 }

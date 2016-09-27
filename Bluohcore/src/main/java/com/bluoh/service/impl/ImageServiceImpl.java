@@ -1,5 +1,7 @@
 package com.bluoh.service.impl;
 
+import com.bluoh.model.Media;
+import com.bluoh.repository.MediaRepository;
 import com.bluoh.service.ImageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,18 +24,28 @@ public class ImageServiceImpl implements ImageService {
 	private final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private Random rnd = new Random();
     private int randomLength = 8;
-    
+
+	private final MediaRepository repository;
 	@Autowired
 	private Environment env;
 
+	@Autowired
+	public ImageServiceImpl(MediaRepository repository) {
+		this.repository = repository;
+	}
+
+
 	@Override
-	public List<String> upload(MultipartFile[] files) {
+	public List<Media> upload(MultipartFile[] files,String source) {
 		MultipartFile file;
 		String name;
 		String path;
-		List<String> response = new ArrayList<String>();
+		List<Media> response = new ArrayList<Media>();
 
 		for (int i = 0; i < files.length; i++) {
+			Media media = new Media();
+			media.setType("image");
+			media.setSource(source);
 			file = files[i];
 
 			name = randomString(randomLength);
@@ -51,7 +63,9 @@ public class ImageServiceImpl implements ImageService {
 					stream.write(bytes);
 					stream.close();
 					LOGGER.info("Success!");
-					response.add(path);
+					media.setUrl(env.getProperty("image.url") + name+ ".png");
+					media  = repository.save(media);
+					response.add(media);
 				} catch (Exception e) {
 					LOGGER.error("Failure... " + e.getMessage());
 				}

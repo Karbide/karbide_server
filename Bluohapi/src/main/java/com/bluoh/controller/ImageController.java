@@ -1,5 +1,6 @@
 package com.bluoh.controller;
 
+import com.bluoh.model.Media;
 import com.bluoh.service.ImageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.NotNull;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,16 +24,10 @@ public class ImageController {
 
 	@RequestMapping(value = "upload", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	public Map<String, Object> addImage(@RequestParam("file") MultipartFile[] submissions) {
+	public List<Media> addImage(@RequestParam("file") MultipartFile[] submissions, @RequestParam("source") @NotNull String source) {
 
-		List<String> paths = service.upload(submissions);
+		List<Media> response = service.upload(submissions,source);
 
-		Map<String, Object> response = new LinkedHashMap<String, Object>();
-		response.put("message", "successfully uploaded");
-		for (int i = 0; i < paths.size(); i++) {
-			String path = paths.get(i);
-			response.put("url" + i, path);
-		}
 		LOGGER.info("files uploaded");
 		return response;
 	}

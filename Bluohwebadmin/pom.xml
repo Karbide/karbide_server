@@ -8,19 +8,11 @@
 		<version>1.0</version>
 	</parent>
 	<artifactId>bluoh-web-admin</artifactId>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.bluoh</groupId>
-			<artifactId>jcart-core</artifactId>
+			<artifactId>bluoh-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

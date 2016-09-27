@@ -1,5 +1,6 @@
 package com.bluoh.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -32,20 +33,24 @@ public final class Card {
 	private Categories category;
 	@NotNull(message = "Tags can not be empty.")
 	private Tags tags;
+	@NotNull
+	private Media media;
+	private Approver approver;
 	@NotBlank(message = "Image can not be empty.")
-	private String imageUrl;
 	private String template;
 	private String status;
 	private Survey survey;
 	@CreatedDate
+	@JsonIgnore
 	private Date createdTime;
 	@LastModifiedDate
+	@JsonIgnore
 	private Date modifiedTime;
 	
 	public Card(){	
 	}
 
-	public Card(String id, long deckId, String userId, String title, String content, String author, String source, Categories category, Tags tags, String imageUrl, String template, String status, Survey survey, Date createdTime, Date modifiedTime) {
+	public Card(String id, long deckId, String userId, String title, String content, String author, String source, Categories category, Tags tags, Media media, Approver approver, String template, String status, Survey survey, Date createdTime, Date modifiedTime) {
 		this.id = id;
 		this.deckId = deckId;
 		this.userId = userId;
@@ -55,7 +60,8 @@ public final class Card {
 		this.source = source;
 		this.category = category;
 		this.tags = tags;
-		this.imageUrl = imageUrl;
+		this.media = media;
+		this.approver = approver;
 		this.template = template;
 		this.status = status;
 		this.survey = survey;
@@ -111,6 +117,22 @@ public final class Card {
 		this.author = author;
 	}
 
+	public Media getMedia() {
+		return media;
+	}
+
+	public void setMedia(Media media) {
+		this.media = media;
+	}
+
+	public Approver getApprover() {
+		return approver;
+	}
+
+	public void setApprover(Approver approver) {
+		this.approver = approver;
+	}
+
 	public String getSource() {
 		return source;
 	}
@@ -133,14 +155,6 @@ public final class Card {
 
 	public void setTags(Tags tags) {
 		this.tags = tags;
-	}
-
-	public String getImageUrl() {
-		return imageUrl;
-	}
-
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
 	}
 
 	public String getTemplate() {
@@ -183,10 +197,11 @@ public final class Card {
 		this.modifiedTime = modifiedTime;
 	}
 
+
 	@Override
 	public String toString() {
 		return "Card{" +
-				"id=" + id +
+				"id='" + id + '\'' +
 				", deckId=" + deckId +
 				", userId='" + userId + '\'' +
 				", title='" + title + '\'' +
@@ -195,7 +210,8 @@ public final class Card {
 				", source='" + source + '\'' +
 				", category=" + category +
 				", tags=" + tags +
-				", imageUrl='" + imageUrl + '\'' +
+				", media=" + media +
+				", approver=" + approver +
 				", template='" + template + '\'' +
 				", status='" + status + '\'' +
 				", survey=" + survey +

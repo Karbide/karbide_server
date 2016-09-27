@@ -12,6 +12,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -24,6 +28,9 @@ final class CardServiceImpl implements CardService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CardServiceImpl.class);
 
 	private final CardRepository repository;
+
+	@Autowired
+	private MongoOperations mongoOperation;
 
 	@Autowired
 	private SequenceService sequenceService;
@@ -51,7 +58,7 @@ final class CardServiceImpl implements CardService {
 	public Card delete(String id) {
 		LOGGER.info("Deleting a card entry with id: {}", id);
 
-		Card deleted = findBookById(id);
+		Card deleted = findCardById(id);
 		repository.delete(deleted);
 
 		LOGGER.info("Deleted card entry with informtation: {}", deleted);
@@ -62,11 +69,15 @@ final class CardServiceImpl implements CardService {
 	@Override
 	public List<Card> findAll() {
 		LOGGER.info("Finding all card entries.");
-
 		List<Card> cardEntries = repository.findAll();
-
 		LOGGER.info("Found {} card entries", cardEntries.size());
+		return cardEntries;
+	}
 
+	public List<Card> find(Query query) {
+		LOGGER.info("Finding all card entries.");
+		List<Card> cardEntries = mongoOperation.find(query,Card.class);
+		LOGGER.info("Found {} card entries", cardEntries.size());
 		return cardEntries;
 	}
 
@@ -74,7 +85,7 @@ final class CardServiceImpl implements CardService {
 	public Card findById(String id) {
 		LOGGER.info("Finding card entry with id: {}", id);
 
-		Card found = findBookById(id);
+		Card found = findCardById(id);
 
 		LOGGER.info("Found card entry: {}", found);
 
@@ -96,7 +107,7 @@ final class CardServiceImpl implements CardService {
 		return updated;
 	}
 
-	private Card findBookById(String id) {
+	private Card findCardById(String id) {
 		Card result = repository.findOne(id);
 		return result;
 	}
@@ -123,5 +134,9 @@ final class CardServiceImpl implements CardService {
 	    }
 	    String[] result = new String[emptyNames.size()];
 	    return emptyNames.toArray(result);
+	}
+
+	private Pageable createPageRequest() {
+		return new PageRequest(0, 10);
 	}
 }

@@ -1,8 +1,9 @@
 package com.bluoh.service;
 
-import java.util.List;
-
 import com.bluoh.model.Card;
+import org.springframework.data.mongodb.core.query.Query;
+
+import java.util.List;
 
 public interface CardService {
 
@@ -11,6 +12,8 @@ public interface CardService {
     Card delete(String id);
 
     List<Card> findAll();
+
+    List<Card> find(Query query);
 
     Card findById(String id);
 

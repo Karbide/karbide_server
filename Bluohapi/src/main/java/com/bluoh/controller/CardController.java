@@ -55,7 +55,7 @@ public class CardController {
 	public Map<String, Object> getAllCards() {
 		List<Card> cards = service.findAll();
 		Map<String, Object> response = new LinkedHashMap<String, Object>();
-		response.put("totalBooks", cards.size());
+		response.put("totalCards", cards.size());
 		response.put("cards", cards);
 		return response;
 	}
