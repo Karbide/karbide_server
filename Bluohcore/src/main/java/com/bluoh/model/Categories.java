@@ -1,5 +1,8 @@
 package com.bluoh.model;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "categories_master")
 public final class Categories {
 
 	private String category [];

@@ -1,15 +1,22 @@
 package com.bluoh.model;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.Date;
 
 /**
  * Created by Ashutosh on 27-09-2016.
  */
-public class Approver {
+
+public final class Approver {
 
     private int liveDays;
     @NotBlank
     private String ranking;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date liveOnDate;
     private String comments;
 
     public int getLiveDays() {
@@ -26,6 +33,14 @@ public class Approver {
 
     public void setRanking(String ranking) {
         this.ranking = ranking;
+    }
+
+    public Date getLiveOnDate() {
+        return liveOnDate;
+    }
+
+    public void setLiveOnDate(Date liveOnDate) {
+        this.liveOnDate = liveOnDate;
     }
 
     public String getComments() {

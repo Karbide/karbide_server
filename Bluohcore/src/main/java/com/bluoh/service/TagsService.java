@@ -7,8 +7,8 @@ import com.bluoh.model.Tags;
  */
 public interface TagsService {
 
-    Tags getAll();
+    Tags getAllTags();
 
-    boolean addTags(String tag[]);
+    boolean addTags(Tags tag);
 
 }

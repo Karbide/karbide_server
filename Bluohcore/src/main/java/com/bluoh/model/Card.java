@@ -29,6 +29,7 @@ public final class Card {
 	private String author;
 	@NotBlank(message = "Source can not be empty.")
 	private String source;
+	private String url;
 	@NotNull(message = "Category can not be empty.")
 	private Categories category;
 	@NotNull(message = "Tags can not be empty.")
@@ -123,6 +124,14 @@ public final class Card {
 
 	public void setMedia(Media media) {
 		this.media = media;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	public Approver getApprover() {
