@@ -1,9 +1,9 @@
 package com.bluoh.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -13,6 +13,7 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Document
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public final class Card {
 
 	@Id
@@ -41,9 +42,11 @@ public final class Card {
 	private String template;
 	private String status;
 	private Survey survey;
-	@CreatedDate
-	@JsonIgnore
-	private Date createdTime;
+
+	private final static DateTimeField NuLL_B = new DateTimeField(new Date(),new Date());
+
+	private DateTimeField createdTime;
+//	private Date createdTime;
 	@LastModifiedDate
 	@JsonIgnore
 	private Date modifiedTime;
@@ -51,7 +54,7 @@ public final class Card {
 	public Card(){	
 	}
 
-	public Card(String id, long deckId, String userId, String title, String content, String author, String source, Categories category, Tags tags, Media media, Approver approver, String template, String status, Survey survey, Date createdTime, Date modifiedTime) {
+	public Card(String id, long deckId, String userId, String title, String content, String author, String source, Categories category, Tags tags, Media media, Approver approver, String template, String status, Survey survey, DateTimeField createdTime, Date modifiedTime) {
 		this.id = id;
 		this.deckId = deckId;
 		this.userId = userId;
@@ -66,7 +69,7 @@ public final class Card {
 		this.template = template;
 		this.status = status;
 		this.survey = survey;
-		this.createdTime = createdTime;
+		this.createdTime = NuLL_B;
 		this.modifiedTime = modifiedTime;
 	}
 
@@ -190,11 +193,11 @@ public final class Card {
 		this.survey = survey;
 	}
 
-	public Date getCreatedTime() {
+	public DateTimeField getCreatedTime() {
 		return createdTime;
 	}
 
-	public void setCreatedTime(Date createdTime) {
+	public void setCreatedTime(DateTimeField createdTime) {
 		this.createdTime = createdTime;
 	}
 
