@@ -50,11 +50,12 @@ public final class Card {
 	@LastModifiedDate
 	@JsonIgnore
 	private Date modifiedTime;
-	
-	public Card(){	
-	}
 
-	public Card(String id, long deckId, String userId, String title, String content, String author, String source, Categories category, Tags tags, Media media, Approver approver, String template, String status, Survey survey, DateTimeField createdTime, Date modifiedTime) {
+	/*public Card(){
+		this.createdTime = new DateTimeField(new Date(),new Date());
+	}*/
+
+	/*public Card(String id, long deckId, String userId, String title, String content, String author, String source, Categories category, Tags tags, Media media, Approver approver, String template, String status, Survey survey, DateTimeField createdTime, Date modifiedTime) {
 		this.id = id;
 		this.deckId = deckId;
 		this.userId = userId;
@@ -71,7 +72,7 @@ public final class Card {
 		this.survey = survey;
 		this.createdTime = NuLL_B;
 		this.modifiedTime = modifiedTime;
-	}
+	}*/
 
 	public String getId() {
 		return id;
@@ -198,7 +199,11 @@ public final class Card {
 	}
 
 	public void setCreatedTime(DateTimeField createdTime) {
-		this.createdTime = createdTime;
+
+		/*if(this.createdTime==null || this.createdTime.getDate()==null || this.createdTime.getTime()==null) {
+			return;
+		}*/
+			this.createdTime = createdTime;
 	}
 
 	public Date getModifiedTime() {

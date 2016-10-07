@@ -15,6 +15,7 @@ import java.util.Map;
  * Created by Ashutosh on 25-09-2016.
  */
 
+@CrossOrigin()
 @RestController
 @RequestMapping("/tags")
 public class TagsController {
