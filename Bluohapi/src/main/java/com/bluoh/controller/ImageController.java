@@ -22,10 +22,12 @@ public class ImageController {
 	@Autowired
 	private ImageService service;
 
+
 	@RequestMapping(value = "upload", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	public List<Media> addImage(@RequestParam("file") MultipartFile[] submissions, @RequestParam("source") @NotNull String source) {
+	public List<Media> addImage(@RequestParam("file") @NotNull MultipartFile[] submissions, @RequestParam("source") @NotNull String source) {
 
+		LOGGER.info("File --" + submissions.length + ", " + submissions.toString());
 		List<Media> response = service.upload(submissions,source);
 
 		LOGGER.info("files uploaded");

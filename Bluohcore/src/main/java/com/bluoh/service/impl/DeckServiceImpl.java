@@ -2,11 +2,19 @@ package com.bluoh.service.impl;
 
 import com.bluoh.model.Card;
 import com.bluoh.model.Deck;
+import com.bluoh.model.DeckCard;
+import com.bluoh.repository.DeckRepository;
 import com.bluoh.service.CardService;
 import com.bluoh.service.DeckService;
 import com.bluoh.service.SequenceService;
+import com.bluoh.utils.CardNotFoundException;
 import com.bluoh.utils.SequenceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
@@ -24,44 +32,69 @@ final class DeckServiceImpl implements DeckService {
     private CardService cardService;
 
     @Autowired
+    private DeckRepository repository;
+
+    @Autowired
     private SequenceService sequenceService;
 
+    @Autowired
+    private MongoOperations  mongoOperations;
+
+    @Autowired
+    Environment env;
 
     @Override
     public Deck create(Deck deck) throws SequenceException{
         Deck deck1 = new Deck();
         long sequenceId = sequenceService.getNextSequenceId("deckId");
-        deck1.setDeckId(sequenceId);
+        deck.setDeckId(sequenceId);
+        int rank = 1;
         for(Card card : deck.getCards()){
             card.setDeckId(sequenceId);
-            deck1.addCard(cardService.create(card));
+            card.setAuthor(deck.getAuthor());
+            card.setUserId(deck.getUserId());
+            deck.addDeckCard(new DeckCard(cardService.create(card).getId(), rank, true));
+            rank++;
+        }
+        try {
+           deck1  = repository.save(deck);
+        } catch (Exception e){
+            e.printStackTrace();
         }
         return deck1;
     }
 
+
+
     @Override
     public Deck delete(String id) {
-
         Deck response = new Deck();
-        Query query = new Query();
-        query.addCriteria(Criteria.where("deckId").in(id));
-        List<Card> cards = cardService.find(query);
+        List<Card> cards = cardService.find(Query.query(Criteria.where("deckId").in(id)));
         return response;
     }
 
     @Override
-    public List<Deck> findAll() {
-        return null;
+    public Page<Deck> findAll(int page) {
+        int pagingLength = Integer.parseInt(env.getProperty("paging"));
+        Pageable pageable = new PageRequest(page,pagingLength);
+        Page<Deck> decks = repository.findAll(pageable);
+        for(Deck deck : decks){
+            try {
+                deck.addCard(cardService.findById(deck.getDeckCards().get(0).getId()));
+            }catch (Exception e){
+                throw new CardNotFoundException("Unable to find card for deckId" + deck.getDeckId());
+            }
+        }
+        return decks;
     }
 
     @Override
     public Deck findById(long id) {
         Deck response = new Deck();
-        Query query = new Query();
-        query.addCriteria(Criteria.where("deckId").in(id));
-        List<Card> cards = cardService.find(query);
+        response = mongoOperations.findOne(Query.query(Criteria.where("_id").in(id)),Deck.class);
+        List<Card> cards = cardService.find(Query.query(Criteria.where("deckId").in(id)));
         response.setCards(cards);
-        response.setDeckId(id);
+//        response.setDeckId(id);
         return response;
     }
 }

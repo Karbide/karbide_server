@@ -1,10 +1,8 @@
 package com.bluoh.service.impl;
 
 import com.bluoh.model.Card;
-import com.bluoh.model.Tags;
 import com.bluoh.repository.CardRepository;
 import com.bluoh.service.CardService;
-import com.bluoh.service.SequenceService;
 import com.bluoh.utils.CardNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,25 +31,21 @@ final class CardServiceImpl implements CardService {
 	private MongoOperations mongoOperation;
 
 	@Autowired
-	private SequenceService sequenceService;
-
-	@Autowired
 	CardServiceImpl(CardRepository repository) {
 		this.repository = repository;
 	}
 
+	@Deprecated
 	@Override
 	public Card create(Card card) {
 		LOGGER.info("Creating a new card entry with information: {}", card);
-		if(card.getDeckId() == 0){
-			card.setDeckId(sequenceService.getNextSequenceId("deckId"));
-		}
-		Tags tags = card.getTags();
+//		Tags tags = card.getTags();
 
 		Card persisted = repository.save(card);
 		LOGGER.info("Created a new card entry with information: {}", persisted);
 
 		return persisted;
+//		return null;
 	}
 
 	@Override

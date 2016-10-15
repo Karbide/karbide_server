@@ -1,8 +1,7 @@
 package com.bluoh.service;
 
 import com.bluoh.model.Deck;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
 
 /**
  * Created by Ashutosh on 25-09-2016.
@@ -12,7 +11,8 @@ public interface DeckService {
 
     Deck delete(String id);
 
-    List<Deck> findAll();
+    Page<Deck> findAll(int page);
 
     Deck findById(long id);
+
 }

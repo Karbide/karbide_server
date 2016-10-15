@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -29,6 +30,7 @@ public class TagsController {
         this.service = service;
     }
 
+    @Secured({"ROLE_USER"})
     @RequestMapping(method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.FOUND)
     public Tags getAll(){
@@ -36,6 +38,7 @@ public class TagsController {
         return service.getAllTags();
     }
 
+    @Secured({"ROLE_ADMIN"})
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public Map<String, String> addCategories(@RequestBody Tags tags){

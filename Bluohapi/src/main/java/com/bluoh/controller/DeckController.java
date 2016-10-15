@@ -3,10 +3,13 @@ package com.bluoh.controller;
 import com.bluoh.model.Deck;
 import com.bluoh.service.DeckService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 
 /**
  * Created by Ashutosh on 25-09-2016.
@@ -22,6 +25,7 @@ public class DeckController {
         this.service = service;
     }
 
+    @Secured({ "ROLE_ADMIN" , "ROLE_USER" })
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public Deck createDeck(@RequestBody @Valid Deck deck){
@@ -29,6 +33,16 @@ public class DeckController {
         return created;
     }
 
+    @Secured({ "ROLE_USER" })
+    @RequestMapping(method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.FOUND)
+    public Page<Deck> getAllDeck(@RequestParam int page){
+        HashMap<String, Object> response = new HashMap<String, Object>();
+        Page<Deck> decks = service.findAll(page);
+        return decks;
+    }
+
+    @Secured({"ROLE_USER"})
     @RequestMapping(method = RequestMethod.GET, value = "/{deckId}")
     @ResponseStatus(HttpStatus.FOUND)
     public Deck GetDeck(@PathVariable("deckId") long deckId){
