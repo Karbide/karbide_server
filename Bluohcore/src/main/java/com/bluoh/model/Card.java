@@ -51,6 +51,8 @@ public final class Card {
     @JsonIgnore
     private Date modifiedTime;
 
+    private int curretWeight;
+
     public String getId() {
         return id;
     }
@@ -155,6 +157,14 @@ public final class Card {
         this.modifiedTime = modifiedTime;
     }
 
+    public int getCurretWeight() {
+        return curretWeight;
+    }
+
+    public void setCurretWeight(int curretWeight) {
+        this.curretWeight = curretWeight;
+    }
+
 
     @Override
     public String toString() {
@@ -165,12 +175,14 @@ public final class Card {
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", author='" + author + '\'' +
+                ", url='" + url + '\'' +
                 ", media=" + media +
                 ", template='" + template + '\'' +
                 ", status='" + status + '\'' +
                 ", survey=" + survey +
                 ", createdTime=" + createdTime +
                 ", modifiedTime=" + modifiedTime +
+                ", curretWeight=" + curretWeight +
                 '}';
     }
 }

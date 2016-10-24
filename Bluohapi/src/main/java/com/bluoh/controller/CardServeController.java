@@ -16,55 +16,26 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/card")
-public class CardController {
-	private static final Logger LOGGER = LoggerFactory.getLogger(CardController.class);
+@RequestMapping("/cardServe")
+public class CardServeController {
+	private static final Logger LOGGER = LoggerFactory.getLogger(CardServeController.class);
 
 	private final CardService service;
 
 	@Autowired
-	CardController(CardService service){
+    CardServeController(CardService service){
 		this.service = service;
 	}
 
-	@Secured("ROLE_ADMIN")
-	@RequestMapping(method = RequestMethod.POST)
-	@ResponseStatus(HttpStatus.CREATED)
-	public Card createCard(@RequestBody @Valid Card card) {
-		Card created = service.create(card);
-		return created;
-	}
-
-	@Secured("ROLE_USER")
-	@RequestMapping(method = RequestMethod.GET, value = "/{cardId}")
-	public Card getCardDetails(@PathVariable("cardId") String cardId) {
-		return service.findById(cardId);
-	}
-
-	@Secured("ROLE_USER")
-	@RequestMapping(method = RequestMethod.PUT, value = "/{cardId}")
-	public Card editBook(@PathVariable("cardId") String cardId, @RequestBody @Valid Card card) {
-		card.setId(cardId);
-		Card updated =  service.update(card);
-		return updated;
-	}
-
-	/*@RequestMapping(method = RequestMethod.DELETE, value = "/{cardId}")
-	public Card deleteBook(@PathVariable("cardId") String cardId) {
-		Card deleted = service.delete(cardId);
-		return deleted;
-	}*/
-
-	@Secured("ROLE_ADMIN")
+	@Secured({"ROLE_ADMIN" , "ROLE_USER"})
 	@RequestMapping(method = RequestMethod.GET)
-	public Map<String, Object> getAllCards() {
-		List<Card> cards = service.findAll();
+	public Map<String,Object> getCardPageWise(@RequestParam("cardIndex") long cardIndex){
+		List<Card> cards = service.findAfterIndex(cardIndex);
 		Map<String, Object> response = new LinkedHashMap<String, Object>();
 		response.put("totalCards", cards.size());
 		response.put("cards", cards);
 		return response;
 	}
-
 
 	@ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)

@@ -12,6 +12,7 @@ import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
@@ -112,7 +113,20 @@ final class CardServiceImpl implements CardService {
 		tagrepo.find(tags);
 		return true;
 	}*/
-	
+
+	@Override
+	public List<Card> findAfterIndex(long cardIndex) {
+
+		LOGGER.info("Finding all card entries.");
+		//List<Card> cardEntries = repository.findAllStatus();
+		List<Card> cardEntries =  repository.findByStatusOrderByCurretWeightAscCreatedTimeDesc("Completed");
+
+		LOGGER.info("Found {} card entries", cardEntries.size(),cardEntries);
+		//return repository.findAfterIndex(cardIndex);
+		return cardEntries;
+	}
+
+
 	private void copyNonNullProperties(Object src, Object target){
 		BeanUtils.copyProperties(src, target, getNullPropertyNames(src));
 	}

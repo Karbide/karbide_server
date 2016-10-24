@@ -19,4 +19,6 @@ public interface CardService {
 
     Card update(Card card);
 
+    List<Card> findAfterIndex(long cardIndex);
+
 }
