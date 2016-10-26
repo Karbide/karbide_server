@@ -1,7 +1,11 @@
 package com.bluoh.service.impl;
 
 import com.bluoh.model.Card;
+import com.bluoh.model.CardServeData;
+import com.bluoh.model.ImpressionWeightData;
 import com.bluoh.repository.CardRepository;
+import com.bluoh.repository.CardServeDataRepository;
+import com.bluoh.repository.ImpressionWeightDataRepository;
 import com.bluoh.service.CardService;
 import com.bluoh.utils.CardNotFoundException;
 import org.slf4j.Logger;
@@ -12,14 +16,11 @@ import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 final class CardServiceImpl implements CardService {
@@ -28,13 +29,21 @@ final class CardServiceImpl implements CardService {
 
 	private final CardRepository repository;
 
+    @Autowired
+	private final ImpressionWeightDataRepository impressionWeightDataRepository;
+
+    @Autowired
+    private final CardServeDataRepository cardServeDataRepository;
+
 	@Autowired
 	private MongoOperations mongoOperation;
 
 	@Autowired
-	CardServiceImpl(CardRepository repository) {
+	CardServiceImpl(CardRepository repository, ImpressionWeightDataRepository impressionWeightDataRepository, CardServeDataRepository cardServeDataRepository) {
 		this.repository = repository;
-	}
+        this.impressionWeightDataRepository = impressionWeightDataRepository;
+        this.cardServeDataRepository = cardServeDataRepository;
+    }
 
 	@Deprecated
 	@Override
@@ -115,15 +124,45 @@ final class CardServiceImpl implements CardService {
 	}*/
 
 	@Override
-	public List<Card> findAfterIndex(long cardIndex) {
-
+	public List<Card> findAfterIndex(CardServeData cardServeData) {
 		LOGGER.info("Finding all card entries.");
-		//List<Card> cardEntries = repository.findAllStatus();
-		List<Card> cardEntries =  repository.findByStatusOrderByCurretWeightAscCreatedTimeDesc("Completed");
+        if(cardServeData.getCardIndex()==1){
+            List<Card> cardEntries =  repository.findByStatusOrderByCurretWeightAscCreatedTimeDesc("Completed");
+            List<ImpressionWeightData> impressionWeightDatas = impressionWeightDataRepository.findByUserIdAndCardId(cardServeData.getUserId(),cardServeData.getCardId());
+            //cardEntries.removeAll(impressionWeightDatas);
 
-		LOGGER.info("Found {} card entries", cardEntries.size(),cardEntries);
-		//return repository.findAfterIndex(cardIndex);
-		return cardEntries;
+            Calendar c = Calendar.getInstance();
+            Date date = new Date();
+            c.setTime(date);
+            c.add(Calendar.DATE, -2);
+            date.setTime( c.getTime().getTime() );
+
+            for(ImpressionWeightData impressionWeightData : impressionWeightDatas){
+                //remove from Ist and add at end
+                List<Card> tempRemoveCard = new ArrayList<>();
+                if(impressionWeightData.getImpressionDate().after(date)){
+                    if(cardEntries.contains(impressionWeightData)){
+                        int index = cardEntries.indexOf(impressionWeightData);
+                        tempRemoveCard.add(cardEntries.get(index));
+                    }
+                }
+                else {
+                    break;
+                }
+                //add card at end
+                cardEntries.removeAll(tempRemoveCard);
+                cardEntries.addAll(tempRemoveCard);
+            }
+
+            //add mongo temp table
+            cardServeData.setCardList(cardEntries);
+            cardServeDataRepository.save(cardServeData);
+        }
+
+        List<Card> data = null;
+        return data;
+
+
 	}
 
 

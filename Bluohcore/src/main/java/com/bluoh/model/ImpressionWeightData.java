@@ -2,32 +2,45 @@ package com.bluoh.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 /**
- * Created by Ashutosh on 11-10-2016.
+ * Created by Deepesh Uniyal on 26-10-2016.
  */
 
 @Document
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public final class ImpressionWeightData {
+public class ImpressionWeightData {
+
 
     @Id
+    private String id;
+
+    @NotBlank(message = "User Id cannot be blank")
     private String userId;
 
-    @JsonIgnore
     private String cardId;
-
     @LastModifiedDate
-    @JsonIgnore
     private Date impressionDate;
 
-    @JsonIgnore
     private int weight;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getUserId() {
         return userId;
@@ -64,10 +77,27 @@ public final class ImpressionWeightData {
     @Override
     public String toString() {
         return "ImpressionWeightData{" +
-                "userId='" + userId + '\'' +
+                "id='" + id + '\'' +
+                ", userId='" + userId + '\'' +
                 ", cardId='" + cardId + '\'' +
                 ", impressionDate=" + impressionDate +
                 ", weight=" + weight +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ImpressionWeightData that = (ImpressionWeightData) o;
+
+        return getCardId().equals(that.getCardId());
+
+    }
+
+    @Override
+    public int hashCode() {
+        return getCardId().hashCode();
     }
 }

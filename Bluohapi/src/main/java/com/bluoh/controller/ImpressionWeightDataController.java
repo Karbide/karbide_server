@@ -1,6 +1,7 @@
 package com.bluoh.controller;
 
 import com.bluoh.model.Card;
+import com.bluoh.model.ImpressionWeightData;
 import com.bluoh.service.CardService;
 import com.bluoh.service.ImpressionWeightDataService;
 import com.bluoh.utils.CardNotFoundException;
@@ -8,15 +9,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/Serve")
+@RequestMapping("/impression")
 public class ImpressionWeightDataController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ImpressionWeightDataController.class);
 
@@ -29,12 +32,19 @@ public class ImpressionWeightDataController {
 
 	@Secured({"ROLE_ADMIN" , "ROLE_USER"})
 	@RequestMapping(method = RequestMethod.POST)
-	public Map<String,Object> addCardImpression(@RequestParam("cardId") String cardId, @RequestParam("userId") String userId, @RequestParam("weight") int weight){
-		List<Card> cards = service.create()
-		Map<String, Object> response = new LinkedHashMap<String, Object>();
-		response.put("totalCards", cards.size());
-		response.put("cards", cards);
-		return response;
+	@ResponseStatus(HttpStatus.CREATED)
+	public ResponseEntity<?> addCardImpression(@RequestBody ImpressionWeightData impressionWeightData){
+		LOGGER.info("data:",impressionWeightData);
+		service.create(impressionWeightData);
+		return new ResponseEntity<>(HttpStatus.CREATED);
+	}
+
+	@Secured("ROLE_USER")
+	@RequestMapping(method = RequestMethod.GET)
+	public List<ImpressionWeightData> getAllImpression() {
+		List<ImpressionWeightData> impressionWeightDatas = service.findAll();
+		LOGGER.info("ImpresionWeightData:"+impressionWeightDatas);
+		return impressionWeightDatas;
 	}
 
 	@ExceptionHandler

@@ -1,8 +1,11 @@
 package com.bluoh.repository;
 
-import com.bluoh.model.Categories;
+import com.bluoh.model.ImpressionWeightData;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface ImpressionWeightDataRepository extends MongoRepository<Categories, String>{
+import java.util.List;
 
+public interface ImpressionWeightDataRepository extends MongoRepository<ImpressionWeightData, String>{
+
+    List<ImpressionWeightData> findByUserIdAndCardId(String userId, String cardId);
 }

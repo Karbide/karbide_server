@@ -41,7 +41,7 @@ final class ImpressionWeightDataServiceImpl implements ImpressionWeightDataServi
 	@Override
 	public ImpressionWeightData create(ImpressionWeightData impressionWeightData) {
 		ImpressionWeightData persisted = repository.save(impressionWeightData);
-		LOGGER.info("Created a new card entry with information: {}", persisted);
+		LOGGER.info("Created a new ImpressionWeightData entry with information: {}", impressionWeightData);
 		return persisted;
 	}
 
@@ -52,7 +52,10 @@ final class ImpressionWeightDataServiceImpl implements ImpressionWeightDataServi
 
 	@Override
 	public List<ImpressionWeightData> findAll() {
-		return null;
+		LOGGER.info("Finding all impressionWeightData entries.");
+		List<ImpressionWeightData> impressionWeightDatasEntries = repository.findAll();
+		LOGGER.info("Found {} card entries"+impressionWeightDatasEntries, impressionWeightDatasEntries.size());
+		return impressionWeightDatasEntries;
 	}
 
 	@Override

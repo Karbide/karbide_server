@@ -1,6 +1,7 @@
 package com.bluoh.service;
 
 import com.bluoh.model.Card;
+import com.bluoh.model.CardServeData;
 import org.springframework.data.mongodb.core.query.Query;
 
 import java.util.List;
@@ -19,6 +20,6 @@ public interface CardService {
 
     Card update(Card card);
 
-    List<Card> findAfterIndex(long cardIndex);
+    List<Card> findAfterIndex(CardServeData cardServeData);
 
 }
