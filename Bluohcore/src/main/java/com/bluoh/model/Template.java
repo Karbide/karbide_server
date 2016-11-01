@@ -12,10 +12,10 @@ public final class Template {
     private String type;
     private String desciption;
     private Media media;
-    private Text text;
+    private Content content;
     private Title title;
     private DisplayName displayName;
-    private String tapPosition;
+//    private String tapPosition;
 
     public String getId() {
         return id;
@@ -33,8 +33,8 @@ public final class Template {
         return media;
     }
 
-    public Text getText() {
-        return text;
+    public Content getContent() {
+        return content;
     }
 
     public Title getTitle() {
@@ -45,23 +45,19 @@ public final class Template {
         return displayName;
     }
 
-    public String getTapPosition() {
-        return tapPosition;
-    }
+//    public String getTapPosition() {
+//        return tapPosition;
+//    }
 
     class Media {
-        private String type;
+//        private String type;
         private String space;
         private String position;
-        private MediaCredit mediaCredit;
+        private String mediaCredit;
 
-        class MediaCredit{
-
-        }
-
-        public String getType() {
-            return type;
-        }
+//        public String getType() {
+//            return type;
+//        }
 
         public String getSpace() {
             return space;
@@ -71,17 +67,20 @@ public final class Template {
             return position;
         }
 
-        public MediaCredit getMediaCredit() {
+        public String getMediaCredit() {
             return mediaCredit;
         }
     }
 
-    class Text {
+    class Content {
         private String space;
+        private String alignment;
         private String position;
         private FontAttributes fontAttributes;
 
-//        fontAttributes.
+        public String getAlignment() {
+            return alignment;
+        }
 
         public String getSpace() {
             return space;
@@ -97,12 +96,17 @@ public final class Template {
     }
 
     class Title {
-        private String space;
+        private String alignment;
+        private String tapPosition;
         private String position;
         private FontAttributes fontAttributes;
 
-        public String getSpace() {
-            return space;
+        public String getAlignment() {
+            return alignment;
+        }
+
+        public String getTapPosition() {
+            return tapPosition;
         }
 
         public String getPosition() {
@@ -115,17 +119,17 @@ public final class Template {
     }
 
     class DisplayName {
-        private String space;
-        private String position;
+//        private String space;
+//        private String position;
         private FontAttributes fontAttributes;
 
-        public String getSpace() {
-            return space;
-        }
-
-        public String getPosition() {
-            return position;
-        }
+//        public String getSpace() {
+//            return space;
+//        }
+//
+//        public String getPosition() {
+//            return position;
+//        }
 
         public FontAttributes getFontAttributes() {
             return fontAttributes;
