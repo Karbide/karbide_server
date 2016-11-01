@@ -5,13 +5,5 @@ package com.bluoh.model;
  */
 public final class Template {
 
-    private String Survey = "Survey";
 
-   /* public String getTemplate() {
-        return template;
-    }
-
-    public void setTemplate(String template) {
-        this.template = template;
-    }*/
 }

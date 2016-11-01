@@ -32,7 +32,7 @@ public class TagsController {
 
     @Secured({"ROLE_USER"})
     @RequestMapping(method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     public Tags getAll(){
         LOGGER.info("Into the Tags method");
         return service.getAllTags();

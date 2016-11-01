@@ -25,8 +25,8 @@ public final class Deck {
     @JsonIgnore
     private String userId = userDetails.getId();
     private String type;
-    @NotBlank(message = "Title can not be empty.")
-    private String title;
+//    @NotBlank(message = "Title can not be empty.")
+//    private String title;
     @NotBlank(message = "Author can not be empty.")
     private String author;
     @NotBlank(message = "Display Name can not be empty.")
@@ -88,13 +88,13 @@ public final class Deck {
         this.type = type;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
+//    public String getTitle() {
+//        return title;
+//    }
+//
+//    public void setTitle(String title) {
+//        this.title = title;
+//    }
 
     public String getAuthor() {
         return author;

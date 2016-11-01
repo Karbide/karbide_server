@@ -35,7 +35,7 @@ public class DeckController {
 
     @Secured({ "ROLE_USER" })
     @RequestMapping(method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     public Page<Deck> getAllDeck(@RequestParam int page){
         HashMap<String, Object> response = new HashMap<String, Object>();
         Page<Deck> decks = service.findAll(page);
@@ -44,7 +44,7 @@ public class DeckController {
 
     @Secured({"ROLE_USER"})
     @RequestMapping(method = RequestMethod.GET, value = "/{deckId}")
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     public Deck GetDeck(@PathVariable("deckId") long deckId){
         Deck response = service.findById(deckId);
         return response;

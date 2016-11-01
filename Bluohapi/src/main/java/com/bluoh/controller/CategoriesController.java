@@ -31,7 +31,7 @@ public class CategoriesController {
 
     @Secured({"ROLE_USER"})
     @RequestMapping(method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.FOUND)
+    @ResponseStatus(HttpStatus.OK)
     public Categories getAll(){
         LOGGER.info("Into the Category method");
         return service.getAllCategories();
