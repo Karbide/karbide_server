@@ -1,6 +1,7 @@
 package com.bluoh.service;
 
 import com.bluoh.model.Deck;
+import com.bluoh.model.DeckActivity;
 import org.springframework.data.domain.Page;
 
 /**
@@ -14,5 +15,7 @@ public interface DeckService {
     Page<Deck> findAll(int page);
 
     Deck findById(long id);
+
+    boolean updateDeckActivity(DeckActivity deckActivity);
 
 }

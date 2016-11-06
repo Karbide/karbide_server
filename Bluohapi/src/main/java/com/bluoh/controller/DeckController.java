@@ -1,6 +1,7 @@
 package com.bluoh.controller;
 
 import com.bluoh.model.Deck;
+import com.bluoh.model.DeckActivity;
 import com.bluoh.service.DeckService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -47,6 +48,21 @@ public class DeckController {
     @ResponseStatus(HttpStatus.OK)
     public Deck GetDeck(@PathVariable("deckId") long deckId){
         Deck response = service.findById(deckId);
+        return response;
+    }
+
+    @Secured({"ROLE_USER"})
+    @RequestMapping(method = RequestMethod.PUT, value = "/update/{deckId}")
+    @ResponseStatus(HttpStatus.OK)
+    public HashMap<String,Object> UpdateDeck(@PathVariable("deckId") long deckId, @RequestBody @Valid DeckActivity deckActivity){
+        HashMap<String,Object> response = new HashMap<String,Object>();
+        deckActivity.setDeckId(deckId);
+        boolean isGood = service.updateDeckActivity(deckActivity);
+        if(isGood){
+            response.put("message","Things went out well");
+        }else {
+            response.put("message","We need to do more than this");
+        }
         return response;
     }
 

@@ -1,6 +1,7 @@
 package com.bluoh.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
@@ -21,8 +22,10 @@ public final class Deck {
     private static SecUserDetails userDetails = (SecUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
     @Id
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private long deckId;
     @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String userId = userDetails.getId();
     private String type;
 //    @NotBlank(message = "Title can not be empty.")
@@ -87,14 +90,6 @@ public final class Deck {
     public void setType(String type) {
         this.type = type;
     }
-
-//    public String getTitle() {
-//        return title;
-//    }
-//
-//    public void setTitle(String title) {
-//        this.title = title;
-//    }
 
     public String getAuthor() {
         return author;

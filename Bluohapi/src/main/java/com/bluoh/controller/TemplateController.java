@@ -35,7 +35,7 @@ public class TemplateController {
     @RequestMapping(method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public Map<String, Object> getAll() {
-        LOGGER.info("Into the Categories method");
+        LOGGER.info("Into the template method");
         List<Template> templates= service.getAll();
 
         Map<String,Object> response = new HashMap<String, Object>();
