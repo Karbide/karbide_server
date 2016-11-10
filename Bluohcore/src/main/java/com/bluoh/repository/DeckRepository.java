@@ -10,4 +10,7 @@ public interface DeckRepository extends MongoRepository<Deck, String>{
 
     @Query(value = "{}", fields = "{cards : { $slice : 1 }}")
     Page<Deck> findAll(Pageable pageable);
+
+    @Query(value = "{ '_id' : { $in: ?0 } }", fields = "{cards : { $slice : 1 }}")
+    Page<Deck> findAll(Long[] deckId, Pageable pageable);
 }

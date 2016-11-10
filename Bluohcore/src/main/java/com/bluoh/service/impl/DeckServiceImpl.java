@@ -95,6 +95,22 @@ final class DeckServiceImpl implements DeckService {
     }
 
     @Override
+    public Page<Deck> findAll(Long[] deckId, int page) {
+        System.out.println("DeckServiceImpl.findAll");
+        int pagingLength = Integer.parseInt(env.getProperty("paging"));
+        Pageable pageable = new PageRequest(page, pagingLength);
+        Page<Deck> decks = repository.findAll(deckId,pageable);
+        for (Deck deck : decks) {
+            try {
+                deck.addCard(cardService.findById(deck.getDeckCards().get(0).getId()));
+            } catch (Exception e) {
+                throw new CardNotFoundException("Unable to find card for deckId" + deck.getDeckId());
+            }
+        }
+        return decks;
+    }
+
+    @Override
     public Deck findById(long id) {
         Deck response = new Deck();
         response = mongoOperations.findOne(Query.query(Criteria.where("_id").in(id)), Deck.class);

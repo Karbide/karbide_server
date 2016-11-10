@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@Controller
 @RequestMapping("/image")
 public class ImageController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ImageController.class);
@@ -22,26 +25,33 @@ public class ImageController {
 	@Autowired
 	private ImageService service;
 
+    @Secured({"ROLE_USER"})
+	@RequestMapping(value = "/upload", method = RequestMethod.POST)
+	@ResponseStatus(HttpStatus.OK)
+	public Map<String, Object> addImage(@RequestParam("file") @NotNull MultipartFile[] submissions, @RequestParam("source") @NotNull String source) {
 
-	@RequestMapping(value = "upload", method = RequestMethod.POST)
-	@ResponseStatus(HttpStatus.CREATED)
-	public List<Media> addImage(@RequestParam("file") @NotNull MultipartFile[] submissions, @RequestParam("source") @NotNull String source) {
-
-		LOGGER.info("File --" + submissions.length + ", " + submissions.toString());
-		List<Media> response = service.upload(submissions,source);
-
-		LOGGER.info("files uploaded");
+		LOGGER.info("File --" + submissions.length + ", " + submissions.toString() + " , source --"+source);
+		List<Media> ponse = service.upload(submissions,source);
+        Map<String, Object> response = new LinkedHashMap<String, Object>();
+        if(ponse != null){
+            response.put("message", "files successfully uploaded!");
+            response.put("content", ponse);
+            LOGGER.info("files successfully uploaded");
+        }else{
+            response.put("message", "error uploading files");
+            LOGGER.info("error uploading files");
+        }
 		return response;
 	}
 
-	@RequestMapping(value = "update", method = RequestMethod.POST)
+    @Secured({"ROLE_USER"})
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	public Map<String, Object> updateImage(@RequestParam("file") MultipartFile submissions, @RequestParam("url") String filename) {
+	public Map<String, Object> updateImage(@RequestParam("file") @NotNull MultipartFile submissions, @RequestParam("url") @NotNull String filename) {
 
-		String ponse = service.upload(submissions, filename);
+		String ponse = service.update(submissions, filename);
 		Map<String, Object> response = new LinkedHashMap<String, Object>();
 		response.put("message", ponse);
-		LOGGER.info("files updated");
 		return response;
 	}
 }

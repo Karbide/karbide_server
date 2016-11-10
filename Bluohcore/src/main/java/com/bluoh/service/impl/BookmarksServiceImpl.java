@@ -1,8 +1,10 @@
 package com.bluoh.service.impl;
 
 import com.bluoh.model.Bookmarks;
+import com.bluoh.model.Deck;
 import com.bluoh.repository.BookmarksRepository;
 import com.bluoh.service.BookmarksService;
+import com.bluoh.service.DeckService;
 import com.bluoh.utils.CardNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +12,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -20,6 +23,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 final class BookmarksServiceImpl implements BookmarksService {
@@ -30,6 +34,9 @@ final class BookmarksServiceImpl implements BookmarksService {
 
 	@Autowired
 	private MongoOperations mongoOperation;
+
+	@Autowired
+	private DeckService deckService;
 
 	@Autowired
     BookmarksServiceImpl(BookmarksRepository repository) {
@@ -66,12 +73,13 @@ final class BookmarksServiceImpl implements BookmarksService {
 		return cardEntries;
 	}*/
 
-	public List<Bookmarks> findAll() {
+	public Page<Deck> findAll(int page) {
         Bookmarks bookmarks = new Bookmarks();
 		LOGGER.info("Finding all bookmarks entries.");
 		List<Bookmarks> cardEntries = mongoOperation.find(Query.query(Criteria.where("userId").in(bookmarks.getUserId())),Bookmarks.class);
 		LOGGER.info("Found {} bookmarks entries", cardEntries.size());
-		return cardEntries;
+		Set<Long> deckIds = cardEntries.stream().map(Bookmarks::getDeckId).collect(Collectors.toSet());
+		return deckService.findAll(deckIds.toArray(new Long[deckIds.size()]),page);
 	}
 
 	@Override

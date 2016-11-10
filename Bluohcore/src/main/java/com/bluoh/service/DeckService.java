@@ -14,6 +14,8 @@ public interface DeckService {
 
     Page<Deck> findAll(int page);
 
+    Page<Deck> findAll(Long[] deckId, int page);
+
     Deck findById(long id);
 
     boolean updateDeckActivity(DeckActivity deckActivity);

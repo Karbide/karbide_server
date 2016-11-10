@@ -1,20 +1,22 @@
 package com.bluoh.controller;
 
 import com.bluoh.model.Bookmarks;
+import com.bluoh.model.Deck;
 import com.bluoh.service.BookmarksService;
 import com.bluoh.utils.CardNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/bookmarks")
@@ -32,17 +34,14 @@ public class BookmarksController {
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
 	public List<Bookmarks> createBookmarks(@RequestBody @Valid List<Bookmarks> bookmarks) {
-		List<Bookmarks> created = new ArrayList<Bookmarks>();
-		for(Bookmarks bookmark : bookmarks) {
-			created.add(service.create(bookmark));
-		}
+		List<Bookmarks> created = bookmarks.stream().map(service::create).collect(Collectors.toList());
 		return created;
 	}
 
 	@Secured({"ROLE_USER"})
 	@RequestMapping(method = RequestMethod.GET)
-	public List<Bookmarks> getBookmarksDetails() {
-		return service.findAll();
+	public Page<Deck> getBookmarksDetails(@RequestParam int page) {
+		return service.findAll(page);
 	}
 
 	@Secured({"ROLE_USER"})

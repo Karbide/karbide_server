@@ -1,8 +1,8 @@
 package com.bluoh.service;
 
 import com.bluoh.model.Bookmarks;
-
-import java.util.List;
+import com.bluoh.model.Deck;
+import org.springframework.data.domain.Page;
 
 public interface BookmarksService {
 
@@ -12,7 +12,7 @@ public interface BookmarksService {
 
 //    List<Bookmarks> findAll();
 
-    List<Bookmarks> findAll();
+    Page<Deck> findAll(int page);
 
     Bookmarks findById(String id);
 
