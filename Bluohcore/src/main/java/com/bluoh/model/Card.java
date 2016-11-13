@@ -51,6 +51,8 @@ public final class Card {
     @JsonIgnore
     private Date modifiedTime;
 
+    private int weight;
+
     public String getId() {
         return id;
     }
@@ -155,6 +157,13 @@ public final class Card {
         this.modifiedTime = modifiedTime;
     }
 
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
 
     @Override
     public String toString() {
@@ -165,12 +174,14 @@ public final class Card {
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", author='" + author + '\'' +
+                ", url='" + url + '\'' +
                 ", media=" + media +
                 ", template='" + template + '\'' +
                 ", status='" + status + '\'' +
                 ", survey=" + survey +
                 ", createdTime=" + createdTime +
                 ", modifiedTime=" + modifiedTime +
+                ", weight=" + weight +
                 '}';
     }
 }
