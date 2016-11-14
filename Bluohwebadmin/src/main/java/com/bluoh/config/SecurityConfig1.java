@@ -17,7 +17,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
-public class SecurityConfig extends WebSecurityConfigurerAdapter{
+public class SecurityConfig1 extends WebSecurityConfigurerAdapter{
 
     @Autowired
     UserServiceImpl service;

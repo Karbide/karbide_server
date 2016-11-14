@@ -1,6 +1,6 @@
 package com.bluoh.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -16,8 +16,9 @@ import java.util.Date;
 @Document
 public final class Media {
 
+
     @Id
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String id;
     @NotBlank
     private String type;
@@ -26,10 +27,8 @@ public final class Media {
     @NotBlank
     private String source;
     @CreatedDate
-    @JsonIgnore
     private Date createdTime;
     @LastModifiedDate
-    @JsonIgnore
     private Date modifiedTime;
 
     public String getId() {

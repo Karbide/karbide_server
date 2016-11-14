@@ -9,5 +9,5 @@ public interface ImageService {
 	
 	List<Media> upload(MultipartFile[] file, String source);
 	
-	String upload(MultipartFile file, String path);
+	String update(MultipartFile file, String path);
 }

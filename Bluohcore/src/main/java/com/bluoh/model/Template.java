@@ -1,10 +1,12 @@
 package com.bluoh.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * Created by Ashutosh on 25-09-2016.
  */
+@Document
 public final class Template {
 
     @Id
@@ -15,7 +17,6 @@ public final class Template {
     private Content content;
     private Title title;
     private DisplayName displayName;
-//    private String tapPosition;
 
     public String getId() {
         return id;
@@ -45,19 +46,10 @@ public final class Template {
         return displayName;
     }
 
-//    public String getTapPosition() {
-//        return tapPosition;
-//    }
-
     class Media {
-//        private String type;
         private String space;
         private String position;
         private String mediaCredit;
-
-//        public String getType() {
-//            return type;
-//        }
 
         public String getSpace() {
             return space;
@@ -119,17 +111,7 @@ public final class Template {
     }
 
     class DisplayName {
-//        private String space;
-//        private String position;
         private FontAttributes fontAttributes;
-
-//        public String getSpace() {
-//            return space;
-//        }
-//
-//        public String getPosition() {
-//            return position;
-//        }
 
         public FontAttributes getFontAttributes() {
             return fontAttributes;
