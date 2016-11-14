@@ -24,19 +24,19 @@ public class TemplateController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TemplateController.class);
 
-    private final TemplateService service;
+   // private final TemplateService service;
 
-    @Autowired
-    public TemplateController(TemplateService service) {
-        this.service = service;
-    }
+    //@Autowired
+    //public TemplateController(TemplateService service) {
+      //  this.service = service;
+    //}
 
     @Secured({"ROLE_USER"})
     @RequestMapping(method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public Map<String, Object> getAll() {
         LOGGER.info("Into the Categories method");
-        List<Template> templates= service.getAll();
+        List<Template> templates= null;//service.getAll();
 
         Map<String,Object> response = new HashMap<String, Object>();
         response.put("content", templates);
