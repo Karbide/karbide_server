@@ -37,7 +37,7 @@ public class BluohApiApplication {
 				"API documentation is availabe here.",
 				"API 1.0",
 				"Terms of service",
-				"support@karbide.com",
+				"developers@karbide.com",
 				"License of API",
 				"API license URL");
 		return apiInfo;

@@ -2,7 +2,10 @@ package com.bluoh.controller;
 
 import com.bluoh.model.Traffic;
 import com.bluoh.service.TrafficService;
+<<<<<<< HEAD
 import io.swagger.annotations.ApiOperation;
+=======
+>>>>>>> origin/master
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +35,10 @@ public class TrafficController {
     @Secured({"ROLE_USER"})
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
+<<<<<<< HEAD
     @ApiOperation(value = "Trigger for different type of event in app", notes = "for Flipped and Seen need to send (activity='Flipped' and activity='Seed') and (type='VisitData')")
+=======
+>>>>>>> origin/master
     public Traffic createFeedback(@RequestBody @Valid Traffic traffic) {
         Traffic created = service.create(traffic);
         return created;
