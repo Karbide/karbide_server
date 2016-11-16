@@ -1,5 +1,6 @@
 package com.bluoh.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -22,6 +23,7 @@ public class Bookmarks {
     @Id
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String id;
+    @JsonIgnore
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String userId = userDetails.getId();
     @NotNull(message = "DeckId can not be null")
@@ -30,6 +32,7 @@ public class Bookmarks {
     private String cardId;
     @CreatedDate
     private Date createdTime;
+    @JsonIgnore
     @LastModifiedDate
     private Date modifiedTime;
 

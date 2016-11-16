@@ -66,6 +66,18 @@ final class BookmarksServiceImpl implements BookmarksService {
 		return deleted;
 	}
 
+	@Override
+	public List<Bookmarks> delete(String deckId, String cardId) {
+		List<Bookmarks> bookmarks;
+		LOGGER.info("Deleting a bookmarks entry with deckId: "+ deckId+", cardId: "+ cardId);
+		if(cardId.equals("0")){
+			bookmarks = mongoOperation.findAllAndRemove(Query.query(Criteria.where("deckId").is(Long.parseLong(deckId))),Bookmarks.class);
+			return bookmarks;
+		}
+		bookmarks = mongoOperation.findAllAndRemove(Query.query(Criteria.where("deckId").is(Long.parseLong(deckId)).and("cardId").is(cardId)),Bookmarks.class);
+		return bookmarks;
+	}
+
 	/*public List<Bookmarks> findAll() {
 		LOGGER.info("Finding all bookmarks entries.");
 		List<Bookmarks> cardEntries = repository.findAll();

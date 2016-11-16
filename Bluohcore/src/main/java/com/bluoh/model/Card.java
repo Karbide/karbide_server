@@ -2,6 +2,7 @@ package com.bluoh.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -51,6 +52,7 @@ public final class Card {
     @JsonIgnore
     private Date modifiedTime;
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private int weight;
 
     public String getId() {

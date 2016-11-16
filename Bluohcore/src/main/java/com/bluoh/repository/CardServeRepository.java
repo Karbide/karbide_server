@@ -3,7 +3,6 @@ package com.bluoh.repository;
 import com.bluoh.model.Card;
 import com.bluoh.model.CardIdBean;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.Query;
 
 import java.util.List;
 import java.util.stream.Stream;

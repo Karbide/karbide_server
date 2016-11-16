@@ -1,10 +1,12 @@
 package com.bluoh.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.validator.constraints.Email;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.format.annotation.NumberFormat;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.validation.constraints.NotNull;
@@ -23,6 +25,15 @@ public class Feedback {
     private String userId = ((SecUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
     @NotNull(message = "Subject can not be null")
     private String subject;
+    @NotNull(message = "Name can not be null")
+    private String name;
+    @NotNull(message = "Number can not be null")
+    @NumberFormat
+    private long number;
+    @NotNull(message = "Email can not be null")
+    @Email
+    private String email;
+    @NotNull(message = "Content can not be null")
     private String content;
     @CreatedDate
     private Date createdTime;
@@ -51,6 +62,30 @@ public class Feedback {
 
     public void setSubject(String subject) {
         this.subject = subject;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public long getNumber() {
+        return number;
+    }
+
+    public void setNumber(long number) {
+        this.number = number;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getContent() {
