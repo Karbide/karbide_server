@@ -32,6 +32,7 @@ public class UserServiceImpl implements UserService {
         return response;
     }
 
+    @Override
     public User getUserbyName(String name){
         return mongoOperations.findOne(Query.query(Criteria.where("username").is(name)), User.class);
     }

@@ -37,6 +37,8 @@ public final class User {
     private String utm_campaign;
     @JsonIgnore
     private String utm_term;
+    @JsonIgnore
+    private String gcm_key;
     @CreatedDate
     private Date createdTime;
     @LastModifiedDate
@@ -136,6 +138,14 @@ public final class User {
 
     public void setUtm_term(String utm_term) {
         this.utm_term = utm_term;
+    }
+
+    public String getGcm_key() {
+        return gcm_key;
+    }
+
+    public void setGcm_key(String gcm_key) {
+        this.gcm_key = gcm_key;
     }
 
     public Date getCreatedTime() {

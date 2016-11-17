@@ -4,6 +4,7 @@ import com.bluoh.model.FbLogin;
 import com.bluoh.model.User;
 import com.bluoh.repository.UserRepository;
 import com.bluoh.service.LoginService;
+import com.bluoh.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,9 @@ import org.springframework.stereotype.Service;
 public class LoginServiceImpl implements LoginService {
 
     private final UserRepository repository;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     public LoginServiceImpl(UserRepository repository) {
@@ -29,6 +33,16 @@ public class LoginServiceImpl implements LoginService {
         user.setPassword(login.getId());
         user.setPicture(login.getPicture());
         user.setRole(2);
+        user.setGcm_key(login.getGcm_key());
+        user.setUtm_campaign(login.getUtm_campaign());
+        user.setUtm_content(login.getUtm_content());
+        user.setUtm_medium(login.getUtm_medium());
+        user.setUtm_source(login.getUtm_source());
+        user.setUtm_term(login.getUtm_term());
+        User getUser = userService.getUserbyName(login.getEmail());
+        if(getUser != null){
+            return getUser;
+        }
         User response = repository.save(user);
         return response;
     }

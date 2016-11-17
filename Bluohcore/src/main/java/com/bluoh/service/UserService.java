@@ -9,4 +9,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 public interface UserService extends UserDetailsService{
 
     User getRole(String user);
+
+    User getUserbyName(String name);
 }

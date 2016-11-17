@@ -25,6 +25,7 @@ public class FbLogin {
     private String utm_content;
     private String utm_campaign;
     private String utm_term;
+    private String gcm_key;
 
     public String getId() {
         return id;
@@ -104,6 +105,14 @@ public class FbLogin {
 
     public void setUtm_term(String utm_term) {
         this.utm_term = utm_term;
+    }
+
+    public String getGcm_key() {
+        return gcm_key;
+    }
+
+    public void setGcm_key(String gcm_key) {
+        this.gcm_key = gcm_key;
     }
 
     @Override
