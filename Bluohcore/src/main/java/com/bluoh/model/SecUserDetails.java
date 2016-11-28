@@ -36,6 +36,10 @@ public class SecUserDetails implements UserDetails{
         return user.getId();
     }
 
+    public String getName() { return user.getName(); }
+
+    public String getUserImage() { return user.getPicture().getData().getUrl(); }
+
     @Override
     public String getPassword() {
        return user.getPassword();

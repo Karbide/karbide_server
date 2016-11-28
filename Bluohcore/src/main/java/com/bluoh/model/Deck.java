@@ -19,7 +19,7 @@ import java.util.List;
 @Document
 public final class Deck {
 
-    private static SecUserDetails userDetails = (SecUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    private static SecUserDetails userDetails = (SecUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
     @Id
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -28,10 +28,12 @@ public final class Deck {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String userId = userDetails.getId();
     private String type;
-//    @NotBlank(message = "Title can not be empty.")
+    //    @NotBlank(message = "Title can not be empty.")
 //    private String title;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private String authorImage = userDetails.getUserImage();
     @NotBlank(message = "Author can not be empty.")
-    private String author;
+    private String author = userDetails.getName();
     @NotBlank(message = "Display Name can not be empty.")
     private String displayName;
     @NotNull(message = "Category can not be empty.")
@@ -67,14 +69,14 @@ public final class Deck {
         this.deckId = deckId;
     }
 
-    public void addCard(Card card){
-        if(card != null){
+    public void addCard(Card card) {
+        if (card != null) {
             cards.add(card);
         }
     }
 
-    public void addDeckCard(DeckCard card){
-        if(card != null){
+    public void addDeckCard(DeckCard card) {
+        if (card != null) {
             deckCards.add(card);
         }
     }

@@ -35,6 +35,8 @@ public final class Card {
     private String author;
     @NotBlank(message = "Source url can not be empty.")
     private String url;
+    @NotBlank(message = "Source Name can not be empty.")
+    private String sourceName;
 
     @NotNull
     private Media media;
@@ -93,6 +95,14 @@ public final class Card {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getSourceName() {
+        return sourceName;
+    }
+
+    public void setSourceName(String sourceName) {
+        this.sourceName = sourceName;
     }
 
     public String getAuthor() {
