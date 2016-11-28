@@ -97,10 +97,6 @@ public final class Deck {
         return author;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
     public String getDisplayName() {
         return displayName;
     }
