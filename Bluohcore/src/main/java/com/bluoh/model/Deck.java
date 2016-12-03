@@ -17,7 +17,7 @@ import java.util.List;
  * Created by Ashutosh on 25-09-2016.
  */
 @Document
-public final class Deck {
+public class Deck {
 
     private static SecUserDetails userDetails = (SecUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
@@ -91,6 +91,14 @@ public final class Deck {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getAuthorImage() {
+        return authorImage;
+    }
+
+    public void setAuthorImage(String authorImage) {
+        this.authorImage = authorImage;
     }
 
     public String getAuthor() {

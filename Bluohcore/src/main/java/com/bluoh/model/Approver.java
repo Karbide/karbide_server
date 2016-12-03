@@ -9,7 +9,7 @@ import java.util.Date;
  * Created by Ashutosh on 27-09-2016.
  */
 
-public final class Approver {
+public class Approver {
 
     private int liveDays;
     @NotBlank

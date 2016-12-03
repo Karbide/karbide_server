@@ -16,7 +16,7 @@ import java.util.Date;
 
 @Document
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public final class Card {
+public class Card {
 
     @Id
     private String id;

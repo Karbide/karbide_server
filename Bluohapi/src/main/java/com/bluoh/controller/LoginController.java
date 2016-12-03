@@ -50,8 +50,8 @@ public class LoginController {
             "  \"utm_term\": \"string\",\n" +
             "  \"utm_campaign\": \"string\"\n" +
             "}")
-    public User createFeedback(@RequestBody @Valid FbLogin feedback) {
-        User created = service.create(feedback);
+    public User createFeedback(@RequestBody @Valid FbLogin login) {
+        User created = service.create(login);
         return created;
     }
 

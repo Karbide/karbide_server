@@ -3,7 +3,7 @@ package com.bluoh.model;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "tags_master")
-public final class Tags {
+public class Tags {
 
 	private String tag[];
 

@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * Created by Ashutosh on 25-09-2016.
  */
 @Document
-public final class Template {
+public class Template {
 
     @Id
     private String id;

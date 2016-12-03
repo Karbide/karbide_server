@@ -14,7 +14,7 @@ import java.util.Date;
  */
 
 @Document
-public final class Media {
+public class Media {
 
 
     @Id

@@ -13,7 +13,7 @@ import java.util.Date;
  */
 
 @Document
-public final class User {
+public class User {
 
     @Id
     private String id;

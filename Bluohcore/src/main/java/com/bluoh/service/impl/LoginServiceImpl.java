@@ -5,6 +5,7 @@ import com.bluoh.model.User;
 import com.bluoh.repository.UserRepository;
 import com.bluoh.service.LoginService;
 import com.bluoh.service.UserService;
+import com.bluoh.utils.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,10 +40,12 @@ public class LoginServiceImpl implements LoginService {
         user.setUtm_medium(login.getUtm_medium());
         user.setUtm_source(login.getUtm_source());
         user.setUtm_term(login.getUtm_term());
-        User getUser = userService.getUserbyName(login.getEmail());
-        if(getUser != null){
-            return getUser;
+        User original = userService.getUserbyName(login.getEmail());
+        if(original != null){
+            Util.copyNonNullProperties(user,original);
+            return repository.save(original);
         }
+        System.out.println("User Login : " + user.toString());
         User response = repository.save(user);
         return response;
     }
