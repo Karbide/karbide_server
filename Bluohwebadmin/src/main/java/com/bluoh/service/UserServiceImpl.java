@@ -19,21 +19,23 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService {
 
+    private final UserRepository repository;
+
+    private final MongoOperations mongoOperations;
+
     @Autowired
-    UserRepository repository;
+    public UserServiceImpl(UserRepository repository, MongoOperations mongoOperations) {
+        this.repository = repository;
+        this.mongoOperations = mongoOperations;
+    }
 
-
-    @Autowired
-    private MongoOperations mongoOperations;
-
-//    @Override
+    //    @Override
     public User getRole(String userId) {
-        User response = repository.findOne(userId);
-        return response;
+        return repository.findOne(userId);
     }
 
     @Override
-    public User getUserbyName(String name){
+    public User getUserByName(String name) {
         return mongoOperations.findOne(Query.query(Criteria.where("username").is(name)), User.class);
     }
 
@@ -42,7 +44,7 @@ public class UserServiceImpl implements UserService {
 
         UserDetails details;
         try {
-            User user = getUserbyName(username);
+            User user = getUserByName(username);
             if (user == null) {
                 throw new UsernameNotFoundException(username);
             } else {
@@ -50,9 +52,6 @@ public class UserServiceImpl implements UserService {
             }
         }catch (Exception e){
             throw new InternalAuthenticationServiceException(e.getMessage());
-        }
-        if (details == null) {
-            throw new UsernameNotFoundException("User not found");
         }
         return details;
     }

@@ -12,7 +12,6 @@ import com.bluoh.service.SequenceService;
 import com.bluoh.utils.CardNotFoundException;
 import com.bluoh.utils.SequenceException;
 import com.mongodb.WriteResult;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,26 +28,28 @@ import java.util.List;
  * Created by Ashutosh on 25-09-2016.
  */
 @Service
-final class DeckServiceImpl implements DeckService {
+public class DeckServiceImpl implements DeckService {
 
+    private final CardService cardService;
 
-    @Autowired
-    private CardService cardService;
+    private final DeckActivityService deckActivityService;
 
-    @Autowired
-    DeckActivityService deckActivityService;
+    private final DeckRepository repository;
 
-    @Autowired
-    private DeckRepository repository;
+    private final SequenceService sequenceService;
 
-    @Autowired
-    private SequenceService sequenceService;
+    private final MongoOperations mongoOperations;
 
-    @Autowired
-    private MongoOperations mongoOperations;
+    private final Environment env;
 
-    @Autowired
-    Environment env;
+    public DeckServiceImpl(CardService cardService, DeckActivityService deckActivityService, DeckRepository repository, SequenceService sequenceService, MongoOperations mongoOperations, Environment env) {
+        this.cardService = cardService;
+        this.deckActivityService = deckActivityService;
+        this.repository = repository;
+        this.sequenceService = sequenceService;
+        this.mongoOperations = mongoOperations;
+        this.env = env;
+    }
 
     @Override
     public Deck create(Deck deck) throws SequenceException {
@@ -60,7 +61,7 @@ final class DeckServiceImpl implements DeckService {
             card.setDeckId(sequenceId);
             card.setAuthor(deck.getAuthor());
             card.setUserId(deck.getUserId());
-            deck.addDeckCard(new DeckCard(cardService.create(card).getId(), rank, true));
+            deck.addDeckCard(new DeckCard(cardService.create(card).getId(), rank));
             rank++;
         }
         try {
@@ -99,7 +100,7 @@ final class DeckServiceImpl implements DeckService {
         System.out.println("DeckServiceImpl.findAll");
         int pagingLength = Integer.parseInt(env.getProperty("paging"));
         Pageable pageable = new PageRequest(page, pagingLength);
-        Page<Deck> decks = repository.findAll(deckId,pageable);
+        Page<Deck> decks = repository.findAll(deckId, pageable);
         for (Deck deck : decks) {
             try {
                 deck.addCard(cardService.findById(deck.getDeckCards().get(0).getId()));
@@ -112,8 +113,7 @@ final class DeckServiceImpl implements DeckService {
 
     @Override
     public Deck findById(long id) {
-        Deck response = new Deck();
-        response = mongoOperations.findOne(Query.query(Criteria.where("_id").in(id)), Deck.class);
+        Deck response = mongoOperations.findOne(Query.query(Criteria.where("_id").in(id)), Deck.class);
         List<Card> cards = cardService.find(Query.query(Criteria.where("deckId").in(id)));
         response.setCards(cards);
 //        response.setDeckId(id);
@@ -126,13 +126,13 @@ final class DeckServiceImpl implements DeckService {
         try {
             query.addCriteria(Criteria.where("_id").in(deckActivity.getDeckId()));
             Update update = new Update();
-            String[] params = {"likes","dislikes","views"};
-            for( String param : params){
-                if(deckActivity.getActivity().equals(param)){
-                    if(param.equals("dislikes")){
-                        update.inc("likes",-1);
-                    }else {
-                        update.inc(param,1);
+            String[] params = {"likes", "dislikes", "views"};
+            for (String param : params) {
+                if (deckActivity.getActivity().equals(param)) {
+                    if (param.equals("dislikes")) {
+                        update.inc("likes", -1);
+                    } else {
+                        update.inc(param, 1);
                     }
                     break;
                 }

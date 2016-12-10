@@ -31,8 +31,7 @@ public class CardController {
 	@RequestMapping(method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public Card createCard(@RequestBody @Valid Card card) {
-		Card created = service.create(card);
-		return created;
+		return service.create(card);
 	}
 
 	@Secured("ROLE_USER")
@@ -45,8 +44,7 @@ public class CardController {
 	@RequestMapping(method = RequestMethod.PUT, value = "/{cardId}")
 	public Card editBook(@PathVariable("cardId") String cardId, @RequestBody @Valid Card card) {
 		card.setId(cardId);
-		Card updated =  service.update(card);
-		return updated;
+		return service.update(card);
 	}
 
 	/*@RequestMapping(method = RequestMethod.DELETE, value = "/{cardId}")
@@ -59,7 +57,7 @@ public class CardController {
 	@RequestMapping(method = RequestMethod.GET)
 	public Map<String, Object> getAllCards() {
 		List<Card> cards = service.findAll();
-		Map<String, Object> response = new LinkedHashMap<String, Object>();
+		Map<String, Object> response = new LinkedHashMap<>();
 		response.put("totalCards", cards.size());
 		response.put("cards", cards);
 		return response;
@@ -69,8 +67,8 @@ public class CardController {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Map<String, Object> handleCardNotFound(CardNotFoundException ex) {
         LOGGER.error("Handling error with message: {}", ex.getMessage());
-        Map<String, Object> response = new LinkedHashMap<String, Object>();
-        response.put("message", ex.getMessage());
+		Map<String, Object> response = new LinkedHashMap<>();
+		response.put("message", ex.getMessage());
         return response;
     }
 }

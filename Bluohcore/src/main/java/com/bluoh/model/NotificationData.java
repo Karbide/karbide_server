@@ -19,7 +19,7 @@ public class NotificationData {
         return AnotherActivity;
     }
 
-    public void setAnotherActivity(String anotherActivity) {
+    public void setAnotherActivity(@SuppressWarnings("SameParameterValue") String anotherActivity) {
         AnotherActivity = anotherActivity;
     }
 

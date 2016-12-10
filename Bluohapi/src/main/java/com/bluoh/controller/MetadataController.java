@@ -24,9 +24,10 @@ public class MetadataController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MetadataController.class);
 
-    @Autowired
+
     private final MetadataService service;
 
+    @Autowired
     public MetadataController(MetadataService service) {
         this.service = service;
     }

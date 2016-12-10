@@ -7,6 +7,7 @@ import com.bluoh.state.StateContextInterface;
  * Created by Ashutosh on 07-10-2016.
  */
 public class Completed implements State {
+
     @Override
     public void doAction(StateContextInterface contextInterface) {
 

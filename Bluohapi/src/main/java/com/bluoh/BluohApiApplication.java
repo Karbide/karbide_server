@@ -32,14 +32,13 @@ public class BluohApiApplication {
 	}
 
 	private ApiInfo apiInfo() {
-		ApiInfo apiInfo = new ApiInfo(
-				"Karbide REST API",
+        return new ApiInfo(
+                "Karbide REST API",
 				"API documentation is availabe here.",
 				"API 1.0",
 				"Terms of service",
 				"developers@karbide.com",
 				"License of API",
 				"API license URL");
-		return apiInfo;
 	}
 }

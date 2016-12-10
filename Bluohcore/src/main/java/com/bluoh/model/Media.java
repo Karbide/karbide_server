@@ -43,7 +43,7 @@ public class Media {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(@SuppressWarnings("SameParameterValue") String type) {
         this.type = type;
     }
 

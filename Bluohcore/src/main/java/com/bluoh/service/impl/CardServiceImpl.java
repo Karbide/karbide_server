@@ -13,12 +13,7 @@ import com.bluoh.utils.CardNotFoundException;
 import com.bluoh.utils.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.BeanWrapper;
-import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
@@ -40,16 +35,16 @@ final class CardServiceImpl implements CardService {
 
 	private final Config config;
 
-	@Autowired
-	private MongoOperations mongoOperation;
+    private final MongoOperations mongoOperation;
 
 	@Autowired
-	CardServiceImpl(Config config, CardRepository repository, CardServeRepository cardServeRepository, CardIdListRepository cardIdListRepository) {
-		this.config=config;
+    CardServiceImpl(Config config, CardRepository repository, CardServeRepository cardServeRepository, CardIdListRepository cardIdListRepository, MongoOperations mongoOperation) {
+        this.config=config;
 		this.repository = repository;
 		this.cardServeRepository = cardServeRepository;
 		this.cardIdListRepository = cardIdListRepository;
-	}
+        this.mongoOperation = mongoOperation;
+    }
 
 
 	@Deprecated
@@ -119,9 +114,8 @@ final class CardServiceImpl implements CardService {
 	}
 
 	private Card findCardById(String id) {
-		Card result = repository.findOne(id);
-		return result;
-	}
+        return repository.findOne(id);
+    }
 	
 	/*private boolean CheckTags(Card card){
 		boolean bIsValid = false;
@@ -129,10 +123,6 @@ final class CardServiceImpl implements CardService {
 		tagrepo.find(tags);
 		return true;
 	}*/
-
-	private Pageable createPageRequest() {
-		return new PageRequest(0, 10);
-	}
 
 
 	@Override
@@ -153,8 +143,8 @@ final class CardServiceImpl implements CardService {
 		}
 
 		System.out.println(config.getCardServeCount());
-		List<String> cardListId = new ArrayList<String>();
-		int cardIndex = cardServe.getCardIndex();
+        List<String> cardListId = new ArrayList<>();
+        int cardIndex = cardServe.getCardIndex();
 		int countCard = 0;
 		for(int i =0; i<config.getCardServeCount(); i++) {
 

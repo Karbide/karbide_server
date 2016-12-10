@@ -17,17 +17,20 @@ import java.util.List;
 @Service
 public class FeedbackServiceImpl implements FeedbackService {
 
-    @Autowired
-    private FeedbackRepository repository;
+    private final FeedbackRepository repository;
+
+    private final MongoOperations operations;
 
     @Autowired
-    private MongoOperations operations;
+    public FeedbackServiceImpl(FeedbackRepository repository, MongoOperations operations) {
+        this.repository = repository;
+        this.operations = operations;
+    }
 
     @Override
     public List<Feedback> findAll() {
         Feedback feedback = new Feedback();
-        List<Feedback> list = operations.find(Query.query(Criteria.where("userId").in(feedback.getUserId())),Feedback.class);
-        return list;
+        return operations.find(Query.query(Criteria.where("userId").in(feedback.getUserId())), Feedback.class);
     }
 
     @Override

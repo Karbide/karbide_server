@@ -22,9 +22,9 @@ public class TrafficController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TrafficController.class);
 
-    @Autowired
     private final TrafficService service;
 
+    @Autowired
     public TrafficController(TrafficService service) {
         this.service = service;
     }
@@ -34,7 +34,6 @@ public class TrafficController {
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "Trigger for different type of event in app", notes = "for Flipped and Seen need to send (activity='Flip' and activity='Seen') and (type='VisitData') for Likes and dislikes (activity='likes' and activity='dislikes')")
     public Traffic createFeedback(@RequestBody @Valid Traffic traffic) {
-        Traffic created = service.create(traffic);
-        return created;
+        return service.create(traffic);
     }
 }

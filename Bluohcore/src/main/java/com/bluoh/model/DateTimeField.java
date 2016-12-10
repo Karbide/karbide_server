@@ -8,6 +8,7 @@ import java.util.Date;
 /**
  * Created by Ashutosh on 02-10-2016.
  */
+@SuppressWarnings("WeakerAccess")
 public class DateTimeField {
 
     @CreatedDate

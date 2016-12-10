@@ -1,16 +1,12 @@
 package com.bluoh.controller;
 
-import com.bluoh.model.Template;
-import com.bluoh.service.TemplateService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -36,10 +32,10 @@ public class TemplateController {
     @ResponseStatus(HttpStatus.OK)
     public Map<String, Object> getAll() {
         LOGGER.info("Into the Categories method");
-        List<Template> templates= null;//service.getAll();
+//        List<Template> templates= null;//service.getAll();
 
-        Map<String,Object> response = new HashMap<String, Object>();
-        response.put("content", templates);
+        Map<String, Object> response = new HashMap<>();
+        response.put("content", null);
         return response;
     }
 

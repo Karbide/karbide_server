@@ -17,8 +17,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class SequenceServiceImpl implements SequenceService {
 
+    private final MongoOperations mongoOperation;
+
     @Autowired
-    private MongoOperations mongoOperation;
+    public SequenceServiceImpl(MongoOperations mongoOperation) {
+        this.mongoOperation = mongoOperation;
+    }
 
     @Override
     public long getNextSequenceId(String key) throws SequenceException {

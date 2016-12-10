@@ -2,7 +2,6 @@ package com.bluoh.controller;
 
 import com.bluoh.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +16,12 @@ import java.util.List;
 @RequestMapping("/notification")
 public class NotificationController {
 
+    private final NotificationService service;
+
     @Autowired
-    NotificationService service;
+    public NotificationController(NotificationService service) {
+        this.service = service;
+    }
 
     @RequestMapping(value = "/single", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)

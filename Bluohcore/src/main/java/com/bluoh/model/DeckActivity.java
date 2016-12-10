@@ -16,11 +16,11 @@ import java.util.Date;
 @Document(collection = "deck_activity")
 public class DeckActivity {
 
-    private static SecUserDetails userDetails = (SecUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    private static final SecUserDetails userDetails = (SecUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
     @Id
     private String id;
-    private String userId = userDetails.getId();
+    private final String userId = userDetails.getId();
     private long deckId;
     @NotNull(message = "CardId can not be null")
     private String cardId;

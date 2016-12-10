@@ -14,8 +14,12 @@ import java.util.List;
 @Service
 public class MetadataServiceImpl implements MetadataService {
 
+    private final MetadataRepository repository;
+
     @Autowired
-    private MetadataRepository repository;
+    public MetadataServiceImpl(MetadataRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public List<Metadata> findAll() {

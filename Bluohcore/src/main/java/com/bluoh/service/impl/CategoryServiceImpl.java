@@ -12,23 +12,28 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+
 /**
  * Created by Ashutosh on 25-09-2016.
  */
 
 @Service
-public class CategoryServiceImpl implements CategoryService{
+public class CategoryServiceImpl implements CategoryService {
+
+    private final CategoryRepository repository;
+
+    private final MongoTemplate template;
 
     @Autowired
-    CategoryRepository repository;
-
-    @Autowired
-    MongoTemplate template;
+    public CategoryServiceImpl(CategoryRepository repository, MongoTemplate template) {
+        this.repository = repository;
+        this.template = template;
+    }
 
     @Override
     public Categories getAllCategories() {
-        Categories categories = repository.findOne("57de6284a444826a11a5946b");
-        return categories;
+        return repository.findOne("57de6284a444826a11a5946b");
     }
 
     @Override
@@ -36,9 +41,7 @@ public class CategoryServiceImpl implements CategoryService{
 
         Update update = new Update();
         BasicDBList list = new BasicDBList();
-        for (String cat : categories.getCategory()){
-            list.add(cat);
-        }
+        Collections.addAll(list, categories.getCategory());
         update.addToSet("category", BasicDBObjectBuilder.start("$each", list).get());
         Criteria criteria = Criteria.where("_id").is("57de6284a444826a11a5946b");
         template.updateFirst(Query.query(criteria), update, "categories_master");

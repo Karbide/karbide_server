@@ -88,6 +88,7 @@ public class User {
         this.picture = picture;
     }
 
+    @SuppressWarnings("SameParameterValue")
     public void setRole(int role) {
         Role = role;
     }

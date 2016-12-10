@@ -12,8 +12,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class TrafficServiceImpl implements TrafficService {
 
+    private final TrafficRepository repository;
+
     @Autowired
-    private TrafficRepository repository;
+    public TrafficServiceImpl(TrafficRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public Traffic create(Traffic traffic) {

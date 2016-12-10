@@ -19,21 +19,21 @@ import java.util.List;
 @Document
 public class Deck {
 
-    private static SecUserDetails userDetails = (SecUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    private static final SecUserDetails userDetails = (SecUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
     @Id
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private long deckId;
     @JsonIgnore
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private String userId = userDetails.getId();
+    private final String userId = userDetails.getId();
     private String type;
     //    @NotBlank(message = "Title can not be empty.")
 //    private String title;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private String authorImage = userDetails.getUserImage();
+    private final String authorImage = userDetails.getUserImage();
     @NotBlank(message = "Author can not be empty.")
-    private String author = userDetails.getName();
+    private final String author = userDetails.getName();
     @NotBlank(message = "Display Name can not be empty.")
     private String displayName;
     @NotNull(message = "Category can not be empty.")
@@ -47,10 +47,10 @@ public class Deck {
     @JsonIgnore
     @Field(value = "cards")
 //    @JsonProperty("cards")
-    private List<DeckCard> deckCards = new ArrayList<DeckCard>();
+    private List<DeckCard> deckCards = new ArrayList<>();
     @Transient
 //    @JsonIgnore
-    private List<Card> cards = new ArrayList<Card>();
+    private List<Card> cards = new ArrayList<>();
 
 
     public List<Card> getCards() {
@@ -95,10 +95,6 @@ public class Deck {
 
     public String getAuthorImage() {
         return authorImage;
-    }
-
-    public void setAuthorImage(String authorImage) {
-        this.authorImage = authorImage;
     }
 
     public String getAuthor() {

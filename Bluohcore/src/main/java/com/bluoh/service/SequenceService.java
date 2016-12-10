@@ -7,5 +7,6 @@ import com.bluoh.utils.SequenceException;
  */
 public interface SequenceService {
 
+    @SuppressWarnings("SameParameterValue")
     long getNextSequenceId(String key) throws SequenceException;
 }

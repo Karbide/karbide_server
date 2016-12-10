@@ -13,8 +13,8 @@ public enum States {
     Published(new Published(), "Published"),
     Queued(new Queued(), "Queued");
 
-    private State state;
-    private String value;
+    private final State state;
+    private final String value;
 
     States(State state , String value){
         this.state = state;

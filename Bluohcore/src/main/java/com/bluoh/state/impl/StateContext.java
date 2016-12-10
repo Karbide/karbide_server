@@ -14,9 +14,9 @@ import java.util.Map;
  */
 public class StateContext implements StateContextInterface {
 
-    private static final Map<Pair<States, Event>,States> stateMap = new HashMap<Pair<States, Event>,States>();
+    private static final Map<Pair<States, Event>, States> stateMap = new HashMap<>();
 
-    {
+    static {
         stateMap.put(Pair.create(States.Draft, Event.Save), States.InReview);
         stateMap.put(Pair.create(States.Draft, Event.Exit), States.Draft);
         stateMap.put(Pair.create(States.InReview, Event.Approve), States.Queued);

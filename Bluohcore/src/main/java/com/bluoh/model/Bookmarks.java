@@ -18,14 +18,14 @@ import java.util.Date;
 @Document(collection = "bookmarks")
 public class Bookmarks {
 
-    private static SecUserDetails userDetails = (SecUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    private static final SecUserDetails userDetails = (SecUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
     @Id
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String id;
     @JsonIgnore
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private String userId = userDetails.getId();
+    private final String userId = userDetails.getId();
     @NotNull(message = "DeckId can not be null")
     private long deckId;
     @NotNull(message = "CardId can not be null")

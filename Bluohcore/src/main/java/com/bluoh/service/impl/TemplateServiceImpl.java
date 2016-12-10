@@ -14,13 +14,16 @@ import java.util.List;
 @Service
 public class TemplateServiceImpl implements TemplateService{
 
+    private final TemplateRepository repository;
+
     @Autowired
-    TemplateRepository repository;
+    public TemplateServiceImpl(TemplateRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public List<Template> getAll() {
-        List<Template> templates = repository.findAll();
-        return templates;
+        return repository.findAll();
     }
 
     @Override

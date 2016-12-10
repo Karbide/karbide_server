@@ -12,10 +12,10 @@ public class DeckCard {
     private int rank;
     private boolean isEnable;
 
-    public DeckCard(String id, int rank, boolean isEnable) {
+    public DeckCard(String id, int rank) {
         this.id = id;
         this.rank = rank;
-        this.isEnable = isEnable;
+        this.isEnable = true;
     }
 
     public String getId() {

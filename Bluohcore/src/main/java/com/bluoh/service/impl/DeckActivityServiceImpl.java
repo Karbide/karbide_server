@@ -14,13 +14,16 @@ import org.springframework.stereotype.Service;
 public class DeckActivityServiceImpl implements DeckActivityService {
 
 
+    private final DeckActivityRepository repository;
+
     @Autowired
-    DeckActivityRepository repository;
+    public DeckActivityServiceImpl(DeckActivityRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
-    public DeckActivity create(DeckActivity deckActivity) {
-        DeckActivity deckActivity1 = repository.save(deckActivity);
-        return  deckActivity1;
+    public void create(DeckActivity deckActivity) {
+        repository.save(deckActivity);
     }
 
     @Override

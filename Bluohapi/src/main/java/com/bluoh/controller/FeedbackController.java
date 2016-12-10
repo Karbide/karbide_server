@@ -2,8 +2,6 @@ package com.bluoh.controller;
 
 import com.bluoh.model.Feedback;
 import com.bluoh.service.FeedbackService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
@@ -20,11 +18,9 @@ import java.util.List;
 @RequestMapping("/feedback")
 public class FeedbackController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(FeedbackController.class);
-
-    @Autowired
     private final FeedbackService service;
 
+    @Autowired
     public FeedbackController(FeedbackService service) {
         this.service = service;
     }
@@ -33,15 +29,13 @@ public class FeedbackController {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public Feedback createFeedback(@RequestBody @Valid Feedback feedback) {
-        Feedback created = service.create(feedback);
-        return created;
+        return service.create(feedback);
     }
 
     @Secured({"ROLE_USER"})
     @RequestMapping(method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public List<Feedback> getFeedbacks() {
-        List<Feedback> created = service.findAll();
-        return created;
+        return service.findAll();
     }
 }

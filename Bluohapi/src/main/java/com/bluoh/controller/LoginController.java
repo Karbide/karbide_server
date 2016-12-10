@@ -22,9 +22,9 @@ public class LoginController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 
-    @Autowired
     private final LoginService service;
 
+    @Autowired
     public LoginController(LoginService service) {
         this.service = service;
     }
@@ -51,8 +51,7 @@ public class LoginController {
             "  \"utm_campaign\": \"string\"\n" +
             "}")
     public User createFeedback(@RequestBody @Valid FbLogin login) {
-        User created = service.create(login);
-        return created;
+        return service.create(login);
     }
 
 //    @Secured({"ROLE_USER"})

@@ -21,27 +21,24 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 @Service
 public class ImageServiceImpl implements ImageService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ImageServiceImpl.class);
-	private final String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    private Random rnd = new Random();
-    private int randomLength = 8;
 
-	private final MediaRepository repository;
-	@Autowired
-	private Environment env;
+    private final MediaRepository repository;
+    private final Environment env;
 
 	@Autowired
-	public ImageServiceImpl(MediaRepository repository) {
-		this.repository = repository;
-	}
+    public ImageServiceImpl(MediaRepository repository, Environment env) {
+        this.repository = repository;
+        this.env = env;
+    }
 
-	@Override
-	public List<Media> upload(MultipartFile[] files,String source) {
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    @Override
+    public List<Media> upload(MultipartFile[] files,String source) {
         List<Media> medias = null;
         MultiValueMap<String, Object> map = new LinkedMultiValueMap<>();
         List<String> tempFileNames = new ArrayList<>();
@@ -64,14 +61,14 @@ public class ImageServiceImpl implements ImageService {
             headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
             HttpEntity<MultiValueMap<String, Object>> requestEntity =
-                    new HttpEntity<MultiValueMap<String, Object>>(map, headers);
+                    new HttpEntity<>(map, headers);
 
             ResponseEntity<List<String>> response =
                     restTemplate.exchange(env.getProperty("image.url")+"Media-1.0-SNAPSHOT/image/upload",
                             HttpMethod.POST, requestEntity,new ParameterizedTypeReference<List<String>>(){});
 
             if (response != null && response.getBody().size() != 0) {
-                medias = new ArrayList<Media>();
+                medias = new ArrayList<>();
                 for( String image : response.getBody()) {
                     Media media = new Media();
                     media.setSource(source);
@@ -93,8 +90,9 @@ public class ImageServiceImpl implements ImageService {
         return medias;
 	}
 
-	@Override
-	public String update(MultipartFile file, String path) {
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    @Override
+    public String update(MultipartFile file, String path) {
 		
 		if (!file.isEmpty()) {
             path = path.split("/")[4];
@@ -115,7 +113,7 @@ public class ImageServiceImpl implements ImageService {
                 headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
                 HttpEntity<MultiValueMap<String, Object>> requestEntity =
-                        new HttpEntity<MultiValueMap<String, Object>>(map, headers);
+                        new HttpEntity<>(map, headers);
 
                 ResponseEntity<Map<String, String>> response =
                         restTemplate.exchange(env.getProperty("image.url")+"Media-1.0-SNAPSHOT/image/update",

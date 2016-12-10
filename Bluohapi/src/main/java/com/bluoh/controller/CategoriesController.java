@@ -42,7 +42,7 @@ public class CategoriesController {
     @ResponseStatus(HttpStatus.CREATED)
     public Map<String, String> addCategories(@RequestBody Categories categories){
         boolean t = service.addCategories(categories);
-        Map<String, String> response = new HashMap<String,String>();
+        Map<String, String> response = new HashMap<>();
         response.put("isSuccess", t+"");
         return response;
     }

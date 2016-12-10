@@ -4,8 +4,8 @@ package com.bluoh.utils;
  * Created by Ashutosh on 08-10-2016.
  */
 public class Pair<F,S> {
-    public final F first;
-    public final S second;
+    private final F first;
+    private final S second;
 
     /**
      * Constructor for a Pair.
@@ -13,7 +13,7 @@ public class Pair<F,S> {
      * @param first the first object in the Pair
      * @param second the second object in the pair
      */
-    public Pair(F first, S second) {
+    private Pair(F first, S second) {
         this.first = first;
         this.second = second;
     }
@@ -56,6 +56,6 @@ public class Pair<F,S> {
      * @return a Pair that is templatized with the types of a and b
      */
     public static <A, B> Pair <A, B> create(A a, B b) {
-        return new Pair<A, B>(a, b);
+        return new Pair<>(a, b);
     }
 }

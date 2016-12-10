@@ -17,12 +17,12 @@ public class LoginServiceImpl implements LoginService {
 
     private final UserRepository repository;
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     @Autowired
-    public LoginServiceImpl(UserRepository repository) {
+    public LoginServiceImpl(UserRepository repository, UserService userService) {
         this.repository = repository;
+        this.userService = userService;
     }
 
     @Override
@@ -40,13 +40,12 @@ public class LoginServiceImpl implements LoginService {
         user.setUtm_medium(login.getUtm_medium());
         user.setUtm_source(login.getUtm_source());
         user.setUtm_term(login.getUtm_term());
-        User original = userService.getUserbyName(login.getEmail());
+        User original = userService.getUserByName(login.getEmail());
         if(original != null){
             Util.copyNonNullProperties(user,original);
             return repository.save(original);
         }
         System.out.println("User Login : " + user.toString());
-        User response = repository.save(user);
-        return response;
+        return repository.save(user);
     }
 }

@@ -25,6 +25,7 @@ public class BookmarksController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(BookmarksController.class);
 
 	private final BookmarksService service;
+	private String deckId;
 
 	@Autowired
     BookmarksController(BookmarksService service){
@@ -41,8 +42,7 @@ public class BookmarksController {
 			"  }\n" +
 			"]")
 	public List<Bookmarks> createBookmarks(@RequestBody @Valid List<Bookmarks> bookmarks) {
-		List<Bookmarks> created = bookmarks.stream().map(service::create).collect(Collectors.toList());
-		return created;
+		return bookmarks.stream().map(service::create).collect(Collectors.toList());
 	}
 
 	@Secured({"ROLE_USER"})
@@ -71,8 +71,7 @@ public class BookmarksController {
 	@RequestMapping(method = RequestMethod.DELETE, value = "/{deckId}/{cardId}")
 	@ApiOperation(value = "Delete Bookmarks", notes = "cardId with value 0 will result in deletion of each bookmark related to that particular deck")
 	public List<Bookmarks> deleteBookMarks(@PathVariable("deckId") String deckId,@PathVariable("cardId") String cardId) {
-		List<Bookmarks> deleted = service.delete(deckId,cardId);
-		return deleted;
+		return service.delete(deckId, cardId);
 	}
 
 //	@Secured("ROLE_ADMIN")
@@ -89,8 +88,8 @@ public class BookmarksController {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Map<String, Object> handleBookmarksNotFound(CardNotFoundException ex) {
         LOGGER.error("Handling error with message: {}", ex.getMessage());
-        Map<String, Object> response = new LinkedHashMap<String, Object>();
-        response.put("message", ex.getMessage());
+		Map<String, Object> response = new LinkedHashMap<>();
+		response.put("message", ex.getMessage());
         return response;
     }
 }

@@ -13,12 +13,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TestController {
 
+    private final TestService testService;
+
     @Autowired
-    private TestService testService;
+    public TestController(TestService testService) {
+        this.testService = testService;
+    }
 
     @RequestMapping("/testing")
     public ResponseEntity<?> testController(){
         String t = testService.testing();
-        return new ResponseEntity(t, HttpStatus.OK);
+        //noinspection unchecked
+        return new ResponseEntity<>(t, HttpStatus.OK);
     }
 }

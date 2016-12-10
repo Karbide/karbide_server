@@ -30,32 +30,29 @@ public class DeckController {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public Deck createDeck(@RequestBody @Valid Deck deck){
-        Deck created = service.create(deck);
-        return created;
+        return service.create(deck);
     }
 
     @Secured({ "ROLE_USER" })
     @RequestMapping(method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public Page<Deck> getAllDeck(@RequestParam int page){
-        HashMap<String, Object> response = new HashMap<String, Object>();
-        Page<Deck> decks = service.findAll(page);
-        return decks;
+        HashMap<String, Object> response = new HashMap<>();
+        return service.findAll(page);
     }
 
     @Secured({"ROLE_USER"})
     @RequestMapping(method = RequestMethod.GET, value = "/{deckId}")
     @ResponseStatus(HttpStatus.OK)
     public Deck GetDeck(@PathVariable("deckId") long deckId){
-        Deck response = service.findById(deckId);
-        return response;
+        return service.findById(deckId);
     }
 
     @Secured({"ROLE_USER"})
     @RequestMapping(method = RequestMethod.PUT, value = "/update/{deckId}")
     @ResponseStatus(HttpStatus.OK)
     public HashMap<String,Object> UpdateDeck(@PathVariable("deckId") long deckId, @RequestBody @Valid DeckActivity deckActivity){
-        HashMap<String,Object> response = new HashMap<String,Object>();
+        HashMap<String, Object> response = new HashMap<>();
         deckActivity.setDeckId(deckId);
         boolean isGood = service.updateDeckActivity(deckActivity);
         if(isGood){

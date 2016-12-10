@@ -28,7 +28,7 @@ public class Card {
     private String userId;
     @NotBlank(message = "Title can not be empty.")
     private String title;
-    @Size(min = 0, max = 256, message = "Content can not have more than 128 words")
+    @Size(max = 256, message = "Content can not have more than 128 words")
     private String content;
     @JsonIgnore
     @NotBlank(message = "Author can not be empty.")

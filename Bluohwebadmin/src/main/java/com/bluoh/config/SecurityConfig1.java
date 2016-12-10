@@ -19,8 +19,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 public class SecurityConfig1 extends WebSecurityConfigurerAdapter{
 
+    private final UserServiceImpl service;
+
     @Autowired
-    UserServiceImpl service;
+    public SecurityConfig1(UserServiceImpl service) {
+        this.service = service;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

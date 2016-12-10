@@ -6,21 +6,16 @@ import com.bluoh.repository.BookmarksRepository;
 import com.bluoh.service.BookmarksService;
 import com.bluoh.service.DeckService;
 import com.bluoh.utils.CardNotFoundException;
+import com.bluoh.utils.Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.BeanWrapper;
-import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -32,15 +27,15 @@ final class BookmarksServiceImpl implements BookmarksService {
 
 	private final BookmarksRepository repository;
 
-	@Autowired
-	private MongoOperations mongoOperation;
+	private final MongoOperations mongoOperation;
+
+	private final DeckService deckService;
 
 	@Autowired
-	private DeckService deckService;
-
-	@Autowired
-    BookmarksServiceImpl(BookmarksRepository repository) {
+	BookmarksServiceImpl(BookmarksRepository repository, DeckService deckService, MongoOperations mongoOperation) {
 		this.repository = repository;
+		this.deckService = deckService;
+		this.mongoOperation = mongoOperation;
 	}
 
 	@Deprecated
@@ -113,7 +108,7 @@ final class BookmarksServiceImpl implements BookmarksService {
 		if(original == null){
 			throw new CardNotFoundException(bookmarks.getId());
 		}
-		copyNonNullProperties(bookmarks,original);
+		Util.copyNonNullProperties(bookmarks, original);
 		Bookmarks updated = repository.save(original);
 
 		LOGGER.info("Updated card entry with information: {}", updated);
@@ -121,8 +116,7 @@ final class BookmarksServiceImpl implements BookmarksService {
 	}
 
 	private Bookmarks findBookmarksById(String id) {
-		Bookmarks result = repository.findOne(id);
-		return result;
+		return repository.findOne(id);
 	}
 
 	/*private boolean CheckTags(Card card){
@@ -132,24 +126,4 @@ final class BookmarksServiceImpl implements BookmarksService {
 		return true;
 	}*/
 
-	private void copyNonNullProperties(Object src, Object target){
-		BeanUtils.copyProperties(src, target, getNullPropertyNames(src));
-	}
-
-	private String[] getNullPropertyNames (Object source) {
-	    final BeanWrapper src = new BeanWrapperImpl(source);
-	    java.beans.PropertyDescriptor[] pds = src.getPropertyDescriptors();
-
-	    Set<String> emptyNames = new HashSet<String>();
-	    for(java.beans.PropertyDescriptor pd : pds) {
-	        Object srcValue = src.getPropertyValue(pd.getName());
-	        if (srcValue == null) emptyNames.add(pd.getName());
-	    }
-	    String[] result = new String[emptyNames.size()];
-	    return emptyNames.toArray(result);
-	}
-
-	private Pageable createPageRequest() {
-		return new PageRequest(0, 10);
-	}
 }

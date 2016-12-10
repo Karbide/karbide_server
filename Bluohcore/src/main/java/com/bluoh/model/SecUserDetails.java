@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class SecUserDetails implements UserDetails{
 
-    private User user;
+    private final User user;
 
     public SecUserDetails(User user){
         this.user = user;
@@ -22,7 +22,7 @@ public class SecUserDetails implements UserDetails{
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         int role = user.getRole();
-        List<GrantedAuthority> authList = new ArrayList<GrantedAuthority>();
+        List<GrantedAuthority> authList = new ArrayList<>();
         if (role == 1) {
             authList.add(new SimpleGrantedAuthority("ROLE_USER"));
             authList.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
