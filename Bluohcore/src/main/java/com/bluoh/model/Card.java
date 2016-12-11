@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.NotBlank;
-import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -23,8 +22,6 @@ public class Card {
     @JsonIgnore
     private long deckId;
     @JsonIgnore
-    @NotBlank(message = "User Id cannot be blank")
-    @CreatedBy
     private String userId;
     @NotBlank(message = "Title can not be empty.")
     private String title;

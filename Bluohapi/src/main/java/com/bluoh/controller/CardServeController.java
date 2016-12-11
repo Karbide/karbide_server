@@ -29,9 +29,6 @@ public class CardServeController {
 		CardServe cardServe = new CardServe();
 		cardServe.setId(id);
 		cardServe.setCardIndex(cardIndex);
-		//System.out.println(service.getUserCard(cardServe).getCards().get(0));
-		//return null;
 		return service.getUserCard(cardServe);
 	}
-
 }

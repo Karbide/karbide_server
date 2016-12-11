@@ -42,8 +42,8 @@ public class CardController {
 
 	@Secured("ROLE_USER")
 	@RequestMapping(method = RequestMethod.PUT, value = "/{cardId}")
-	public Card editBook(@PathVariable("cardId") String cardId, @RequestBody @Valid Card card) {
-		card.setId(cardId);
+    public Card editBook(@PathVariable("cardId") String cardId, @RequestBody Card card) {
+        card.setId(cardId);
 		return service.update(card);
 	}
 
