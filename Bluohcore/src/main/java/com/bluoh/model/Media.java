@@ -21,11 +21,11 @@ public class Media {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String id;
     @NotBlank
-    private String type;
+    private String mediaType;
     @NotBlank
-    private String url;
+    private String mediaUrl;
     @NotBlank
-    private String source;
+    private String mediaCredit;
     @CreatedDate
     private Date createdTime;
     @LastModifiedDate
@@ -40,19 +40,19 @@ public class Media {
     }
 
     public String getType() {
-        return type;
+        return mediaType;
     }
 
     public void setType(@SuppressWarnings("SameParameterValue") String type) {
-        this.type = type;
+        this.mediaType = type;
     }
 
     public String getUrl() {
-        return url;
+        return mediaUrl;
     }
 
     public void setUrl(String url) {
-        this.url = url;
+        this.mediaUrl = url;
     }
 
     public Date getCreatedTime() {
@@ -72,10 +72,10 @@ public class Media {
     }
 
     public String getSource() {
-        return source;
+        return mediaCredit;
     }
 
     public void setSource(String source) {
-        this.source = source;
+        this.mediaCredit = source;
     }
 }

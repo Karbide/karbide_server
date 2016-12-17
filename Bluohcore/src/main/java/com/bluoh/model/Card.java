@@ -31,9 +31,9 @@ public class Card {
     @NotBlank(message = "Author can not be empty.")
     private String author;
     @NotBlank(message = "Source url can not be empty.")
-    private String url;
-    @NotBlank(message = "Source Name can not be empty.")
-    private String sourceName;
+    private String articleWebUrl;
+    @NotBlank(message = "Source Name or Logo can not be empty.")
+    private String articleCredit;
 
     @NotNull
     private Media media;
@@ -95,11 +95,11 @@ public class Card {
     }
 
     public String getSourceName() {
-        return sourceName;
+        return articleCredit;
     }
 
     public void setSourceName(String sourceName) {
-        this.sourceName = sourceName;
+        this.articleCredit = sourceName;
     }
 
     public String getAuthor() {
@@ -119,11 +119,11 @@ public class Card {
     }
 
     public String getUrl() {
-        return url;
+        return articleWebUrl;
     }
 
     public void setUrl(String url) {
-        this.url = url;
+        this.articleWebUrl = url;
     }
 
     public String getTemplate() {
@@ -183,7 +183,7 @@ public class Card {
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", author='" + author + '\'' +
-                ", url='" + url + '\'' +
+                ", url='" + articleWebUrl + '\'' +
                 ", media=" + media +
                 ", template='" + template + '\'' +
                 ", status='" + status + '\'' +

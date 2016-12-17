@@ -28,14 +28,12 @@ public class Deck {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private final String userId = userDetails.getId();
     private String type;
-    //    @NotBlank(message = "Title can not be empty.")
-//    private String title;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private final String authorImage = userDetails.getUserImage();
     @NotBlank(message = "Author can not be empty.")
     private final String author = userDetails.getName();
     @NotBlank(message = "Display Name can not be empty.")
-    private String displayName;
+    private String authorHandle;
     @NotNull(message = "Category can not be empty.")
     private List<String> categories;
     @NotNull(message = "Tags can not be empty.")
@@ -101,7 +99,7 @@ public class Deck {
     }
 
     public String getDisplayName() {
-        return displayName;
+        return authorHandle;
     }
 
     public int getLikes() {
@@ -121,7 +119,7 @@ public class Deck {
     }
 
     public void setDisplayName(String displayName) {
-        this.displayName = displayName;
+        this.authorHandle = displayName;
     }
 
     public List<String> getCategories() {
