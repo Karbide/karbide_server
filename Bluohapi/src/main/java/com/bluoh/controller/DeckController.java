@@ -22,43 +22,44 @@ public class DeckController {
     private final DeckService service;
 
     @Autowired
-    DeckController(DeckService service){
+    DeckController(DeckService service) {
         this.service = service;
     }
 
-    @Secured({ "ROLE_ADMIN" , "ROLE_USER" })
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public Deck createDeck(@RequestBody @Valid Deck deck){
+    public Deck createDeck(@RequestBody @Valid Deck deck) {
         return service.create(deck);
     }
 
-    @Secured({ "ROLE_USER" })
+    @Secured({"ROLE_USER"})
     @RequestMapping(method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public Page<Deck> getAllDeck(@RequestParam int page){
-        HashMap<String, Object> response = new HashMap<>();
-        return service.findAll(page);
+    public Page<Deck> getAllDeck(@RequestParam int page, @RequestParam(required = false) String category, @RequestParam
+            (required = false) String tags) {
+        return service.findAll(page, category, tags);
     }
 
     @Secured({"ROLE_USER"})
     @RequestMapping(method = RequestMethod.GET, value = "/{deckId}")
     @ResponseStatus(HttpStatus.OK)
-    public Deck GetDeck(@PathVariable("deckId") long deckId){
+    public Deck GetDeck(@PathVariable("deckId") long deckId) {
         return service.findById(deckId);
     }
 
     @Secured({"ROLE_USER"})
     @RequestMapping(method = RequestMethod.PUT, value = "/update/{deckId}")
     @ResponseStatus(HttpStatus.OK)
-    public HashMap<String,Object> UpdateDeck(@PathVariable("deckId") long deckId, @RequestBody @Valid DeckActivity deckActivity){
+    public HashMap<String, Object> UpdateDeck(@PathVariable("deckId") long deckId, @RequestBody @Valid DeckActivity
+            deckActivity) {
         HashMap<String, Object> response = new HashMap<>();
         deckActivity.setDeckId(deckId);
         boolean isGood = service.updateDeckActivity(deckActivity);
-        if(isGood){
-            response.put("message","Things went out well");
-        }else {
-            response.put("message","We need to do more than this");
+        if (isGood) {
+            response.put("message", "Things went out well");
+        } else {
+            response.put("message", "We need to do more than this");
         }
         return response;
     }

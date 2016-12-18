@@ -12,4 +12,5 @@ public interface CategoryService {
 
     boolean addCategories(Categories category);
 
+    boolean deleteCategories(Categories categories);
 }

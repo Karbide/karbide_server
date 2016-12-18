@@ -14,6 +14,8 @@ public interface DeckService {
 
     Page<Deck> findAll(int page);
 
+    Page<Deck> findAll(int page, String category, String tags);
+
     Page<Deck> findAll(Long[] deckId, int page);
 
     Deck findById(long id);

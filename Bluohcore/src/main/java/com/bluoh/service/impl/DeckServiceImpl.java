@@ -42,7 +42,8 @@ public class DeckServiceImpl implements DeckService {
 
     private final Environment env;
 
-    public DeckServiceImpl(CardService cardService, DeckActivityService deckActivityService, DeckRepository repository, SequenceService sequenceService, MongoOperations mongoOperations, Environment env) {
+    public DeckServiceImpl(CardService cardService, DeckActivityService deckActivityService, DeckRepository
+            repository, SequenceService sequenceService, MongoOperations mongoOperations, Environment env) {
         this.cardService = cardService;
         this.deckActivityService = deckActivityService;
         this.repository = repository;
@@ -82,33 +83,39 @@ public class DeckServiceImpl implements DeckService {
 
     @Override
     public Page<Deck> findAll(int page) {
-        int pagingLength = Integer.parseInt(env.getProperty("paging"));
-        Pageable pageable = new PageRequest(page, pagingLength);
+        Pageable pageable = getPageable(page);
         Page<Deck> decks = repository.findAll(pageable);
-        for (Deck deck : decks) {
-            try {
-                deck.addCard(cardService.findById(deck.getDeckCards().get(0).getId()));
-            } catch (Exception e) {
-                throw new CardNotFoundException("Unable to find card for deckId" + deck.getDeckId());
+        return getDecks(decks);
+    }
+
+    @Override
+    public Page<Deck> findAll(int page, String category, String tags) {
+        Pageable pageable = getPageable(page);
+        Page<Deck> decks = getDecksBySearch(category, tags, pageable);
+        return getDecks(decks);
+    }
+
+    private Page<Deck> getDecksBySearch(String category, String tags, Pageable pageable) {
+        if (tags == null) {
+            if (category == null) {
+                return repository.findAll(pageable);
             }
+            return repository.findAllByCategory(category, pageable);
+        } else {
+            String[] tagsArray = tags.split(",");
+            if (category == null) {
+                return repository.findAllByTags(tagsArray, pageable);
+            }
+            return repository.findAllByCategoryAndTags(category, tagsArray, pageable);
         }
-        return decks;
     }
 
     @Override
     public Page<Deck> findAll(Long[] deckId, int page) {
-        System.out.println("DeckServiceImpl.findAll");
-        int pagingLength = Integer.parseInt(env.getProperty("paging"));
-        Pageable pageable = new PageRequest(page, pagingLength);
+        System.out.println("DeckServiceImpl.findAll deckId :" + deckId.toString());
+        Pageable pageable = getPageable(page);
         Page<Deck> decks = repository.findAll(deckId, pageable);
-        for (Deck deck : decks) {
-            try {
-                deck.addCard(cardService.findById(deck.getDeckCards().get(0).getId()));
-            } catch (Exception e) {
-                throw new CardNotFoundException("Unable to find card for deckId" + deck.getDeckId());
-            }
-        }
-        return decks;
+        return getDecks(decks);
     }
 
     @Override
@@ -116,7 +123,6 @@ public class DeckServiceImpl implements DeckService {
         Deck response = mongoOperations.findOne(Query.query(Criteria.where("_id").in(id)), Deck.class);
         List<Card> cards = cardService.find(Query.query(Criteria.where("deckId").in(id)));
         response.setCards(cards);
-//        response.setDeckId(id);
         return response;
     }
 
@@ -148,5 +154,21 @@ public class DeckServiceImpl implements DeckService {
             return false;
         }
         return true;
+    }
+
+    private Page<Deck> getDecks(Page<Deck> decks) {
+        for (Deck deck : decks) {
+            try {
+                deck.addCard(cardService.findById(deck.getDeckCards().get(0).getId()));
+            } catch (Exception e) {
+                throw new CardNotFoundException("Unable to find card for deckId" + deck.getDeckId());
+            }
+        }
+        return decks;
+    }
+
+    private Pageable getPageable(int page) {
+        int pagingLength = Integer.parseInt(env.getProperty("paging"));
+        return new PageRequest(page, pagingLength);
     }
 }

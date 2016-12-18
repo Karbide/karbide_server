@@ -32,9 +32,10 @@ public class Card {
     private String author;
     @NotBlank(message = "Source url can not be empty.")
     private String articleWebUrl;
-    @NotBlank(message = "Source Name or Logo can not be empty.")
-    private String articleCredit;
+    //    @NotBlank(message = "Source Name or Logo can not be empty.")
+    private String articleSourceLogo;
 
+    private String articleSourceName;
     @NotNull
     private Media media;
     @NotBlank(message = "Template can not be empty.")
@@ -51,6 +52,7 @@ public class Card {
     @JsonIgnore
     private Date modifiedTime;
 
+    @JsonIgnore
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private int weight;
 
@@ -95,11 +97,19 @@ public class Card {
     }
 
     public String getSourceName() {
-        return articleCredit;
+        return articleSourceLogo;
     }
 
     public void setSourceName(String sourceName) {
-        this.articleCredit = sourceName;
+        this.articleSourceLogo = sourceName;
+    }
+
+    public String getArticleSourceName() {
+        return articleSourceName;
+    }
+
+    public void setArticleSourceName(String articleSourceName) {
+        this.articleSourceName = articleSourceName;
     }
 
     public String getAuthor() {

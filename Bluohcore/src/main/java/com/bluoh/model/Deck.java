@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -39,6 +40,9 @@ public class Deck {
     @NotNull(message = "Tags can not be empty.")
     private List<String> tags;
     private Approver approver;
+
+    private Date publishedDate;
+
     private String status;
     private int likes;
     private int dislikes;
@@ -70,6 +74,14 @@ public class Deck {
         if (card != null) {
             cards.add(card);
         }
+    }
+
+    public Date getPublishedDate() {
+        return publishedDate;
+    }
+
+    public void setPublishedDate(Date publishedDate) {
+        this.publishedDate = publishedDate;
     }
 
     public void addDeckCard(DeckCard card) {

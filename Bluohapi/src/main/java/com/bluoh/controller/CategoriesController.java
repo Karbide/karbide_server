@@ -46,4 +46,14 @@ public class CategoriesController {
         response.put("isSuccess", t+"");
         return response;
     }
+
+    @Secured({"ROLE_USER"})
+    @RequestMapping(method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.CREATED)
+    public Map<String, String> deleteCategories(@RequestBody Categories categories) {
+        boolean t = service.addCategories(categories);
+        Map<String, String> response = new HashMap<>();
+        response.put("isSuccess", t + "");
+        return response;
+    }
 }
