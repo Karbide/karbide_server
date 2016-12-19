@@ -38,6 +38,7 @@ public class DeckController {
     @ResponseStatus(HttpStatus.OK)
     public Page<Deck> getAllDeck(@RequestParam int page, @RequestParam(required = false) String category, @RequestParam
             (required = false) String tags) {
+
         return service.findAll(page, category, tags);
     }
 
