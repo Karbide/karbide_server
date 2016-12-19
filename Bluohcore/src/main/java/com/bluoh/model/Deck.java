@@ -1,7 +1,6 @@
 package com.bluoh.model;
 
 import com.bluoh.utils.annotations.ValidCategory;
-import com.bluoh.utils.annotations.ValidTags;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.NotBlank;
@@ -48,7 +47,6 @@ public class Deck {
     private List<String> categories;
 
     @NotNull(message = "Tags can not be empty.")
-    @ValidTags
     private List<String> tags;
 
     private Approver approver;
@@ -56,7 +54,9 @@ public class Deck {
     private Date publishedDate;
 
     private String status;
+
     private int likes;
+
     private int dislikes;
     @JsonIgnore
     @Field(value = "cards")
@@ -65,6 +65,26 @@ public class Deck {
     @Transient
 //    @JsonIgnore
     private List<Card> cards = new ArrayList<>();
+
+    private String apiFeedSource;
+
+    private String publisher;
+
+    public String getApiFeedSource() {
+        return apiFeedSource;
+    }
+
+    public void setApiFeedSource(String apiFeedSource) {
+        this.apiFeedSource = apiFeedSource;
+    }
+
+    public String getPublisher() {
+        return publisher;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
 
     public List<Card> getCards() {
         return cards;
