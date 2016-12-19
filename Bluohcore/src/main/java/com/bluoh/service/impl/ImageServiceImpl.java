@@ -71,9 +71,9 @@ public class ImageServiceImpl implements ImageService {
                 medias = new ArrayList<>();
                 for( String image : response.getBody()) {
                     Media media = new Media();
-                    media.setSource(source);
-                    media.setType("image");
-                    media.setUrl(env.getProperty("image.url")+"image/"+image);
+                    media.setMediaCredit(source);
+                    media.setMediaType("image");
+                    media.setMediaUrl(env.getProperty("image.url") + "image/" + image);
                     System.out.println("ImageServiceImpl.upload " + image);
                     repository.save(media);
                     medias.add(media);

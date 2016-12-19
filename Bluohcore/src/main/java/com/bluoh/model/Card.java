@@ -23,16 +23,20 @@ public class Card {
     private long deckId;
     @JsonIgnore
     private String userId;
+
     @NotBlank(message = "Title can not be empty.")
     private String title;
+
     @Size(max = 256, message = "Content can not have more than 128 words")
     private String content;
+
     @JsonIgnore
     @NotBlank(message = "Author can not be empty.")
     private String author;
+
     @NotBlank(message = "Source url can not be empty.")
     private String articleWebUrl;
-    //    @NotBlank(message = "Source Name or Logo can not be empty.")
+
     private String articleSourceLogo;
 
     private String articleSourceName;
@@ -52,8 +56,8 @@ public class Card {
     @JsonIgnore
     private Date modifiedTime;
 
-    @JsonIgnore
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonIgnore
     private int weight;
 
     public String getId() {
@@ -64,20 +68,16 @@ public class Card {
         this.id = id;
     }
 
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     public long getDeckId() {
         return deckId;
     }
 
     public void setDeckId(long deckId) {
         this.deckId = deckId;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     public String getTitle() {
@@ -96,12 +96,28 @@ public class Card {
         this.content = content;
     }
 
-    public String getSourceName() {
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getArticleWebUrl() {
+        return articleWebUrl;
+    }
+
+    public void setArticleWebUrl(String articleWebUrl) {
+        this.articleWebUrl = articleWebUrl;
+    }
+
+    public String getArticleSourceLogo() {
         return articleSourceLogo;
     }
 
-    public void setSourceName(String sourceName) {
-        this.articleSourceLogo = sourceName;
+    public void setArticleSourceLogo(String articleSourceLogo) {
+        this.articleSourceLogo = articleSourceLogo;
     }
 
     public String getArticleSourceName() {
@@ -112,28 +128,12 @@ public class Card {
         this.articleSourceName = articleSourceName;
     }
 
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
     public Media getMedia() {
         return media;
     }
 
     public void setMedia(Media media) {
         this.media = media;
-    }
-
-    public String getUrl() {
-        return articleWebUrl;
-    }
-
-    public void setUrl(String url) {
-        this.articleWebUrl = url;
     }
 
     public String getTemplate() {
@@ -182,25 +182,5 @@ public class Card {
 
     public void setWeight(int weight) {
         this.weight = weight;
-    }
-
-    @Override
-    public String toString() {
-        return "Card{" +
-                "id='" + id + '\'' +
-                ", deckId=" + deckId +
-                ", userId='" + userId + '\'' +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", author='" + author + '\'' +
-                ", url='" + articleWebUrl + '\'' +
-                ", media=" + media +
-                ", template='" + template + '\'' +
-                ", status='" + status + '\'' +
-                ", survey=" + survey +
-                ", createdTime=" + createdTime +
-                ", modifiedTime=" + modifiedTime +
-                ", weight=" + weight +
-                '}';
     }
 }

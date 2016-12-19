@@ -7,7 +7,6 @@ import com.bluoh.model.Categories;
  */
 public interface CategoryService {
 
-
     Categories getAllCategories();
 
     boolean addCategories(Categories category);

@@ -44,20 +44,28 @@ public class Media {
         this.id = id;
     }
 
-    public String getType() {
+    public String getMediaType() {
         return mediaType;
     }
 
-    public void setType(@SuppressWarnings("SameParameterValue") String type) {
-        this.mediaType = type;
+    public void setMediaType(String mediaType) {
+        this.mediaType = mediaType;
     }
 
-    public String getUrl() {
+    public String getMediaUrl() {
         return mediaUrl;
     }
 
-    public void setUrl(String url) {
-        this.mediaUrl = url;
+    public void setMediaUrl(String mediaUrl) {
+        this.mediaUrl = mediaUrl;
+    }
+
+    public String getMediaCredit() {
+        return mediaCredit;
+    }
+
+    public void setMediaCredit(String mediaCredit) {
+        this.mediaCredit = mediaCredit;
     }
 
     public Date getCreatedTime() {
@@ -74,13 +82,5 @@ public class Media {
 
     public void setModifiedTime(Date modifiedTime) {
         this.modifiedTime = modifiedTime;
-    }
-
-    public String getSource() {
-        return mediaCredit;
-    }
-
-    public void setSource(String source) {
-        this.mediaCredit = source;
     }
 }

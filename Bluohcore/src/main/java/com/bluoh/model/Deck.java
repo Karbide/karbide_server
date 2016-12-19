@@ -1,5 +1,7 @@
 package com.bluoh.model;
 
+import com.bluoh.utils.annotations.ValidCategory;
+import com.bluoh.utils.annotations.ValidTags;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.NotBlank;
@@ -20,25 +22,35 @@ import java.util.List;
 @Document
 public class Deck {
 
-    private static final SecUserDetails userDetails = (SecUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    private static SecUserDetails userDetails = (SecUserDetails) SecurityContextHolder.getContext()
+            .getAuthentication().getPrincipal();
 
     @Id
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private long deckId;
     @JsonIgnore
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private final String userId = userDetails.getId();
+    private String userId = userDetails.getId();
+
+    @NotBlank(message = "Type can not be empty.")
     private String type;
+
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private final String authorImage = userDetails.getUserImage();
-    @NotBlank(message = "Author can not be empty.")
-    private final String author = userDetails.getName();
-    @NotBlank(message = "Display Name can not be empty.")
+    private String authorImage = userDetails.getUserImage();
+
+    private String author = userDetails.getName();
+
+    @NotBlank(message = "Author Handle can not be empty.")
     private String authorHandle;
+
     @NotNull(message = "Category can not be empty.")
+    @ValidCategory(message = "Category(s) does not exist")
     private List<String> categories;
+
     @NotNull(message = "Tags can not be empty.")
+    @ValidTags
     private List<String> tags;
+
     private Approver approver;
 
     private Date publishedDate;
@@ -110,10 +122,6 @@ public class Deck {
         return author;
     }
 
-    public String getDisplayName() {
-        return authorHandle;
-    }
-
     public int getLikes() {
         return likes;
     }
@@ -128,10 +136,6 @@ public class Deck {
 
     public void setDislikes(int dislikes) {
         this.dislikes = dislikes;
-    }
-
-    public void setDisplayName(String displayName) {
-        this.authorHandle = displayName;
     }
 
     public List<String> getCategories() {
@@ -172,5 +176,13 @@ public class Deck {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getAuthorHandle() {
+        return authorHandle;
+    }
+
+    public void setAuthorHandle(String authorHandle) {
+        this.authorHandle = authorHandle;
     }
 }

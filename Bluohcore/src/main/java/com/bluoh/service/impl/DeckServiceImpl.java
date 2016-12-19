@@ -54,6 +54,7 @@ public class DeckServiceImpl implements DeckService {
 
     @Override
     public Deck create(Deck deck) throws SequenceException {
+
         Deck deck1 = new Deck();
         long sequenceId = sequenceService.getNextSequenceId("deckId");
         deck.setDeckId(sequenceId);
@@ -93,21 +94,6 @@ public class DeckServiceImpl implements DeckService {
         Pageable pageable = getPageable(page);
         Page<Deck> decks = getDecksBySearch(category, tags, pageable);
         return getDecks(decks);
-    }
-
-    private Page<Deck> getDecksBySearch(String category, String tags, Pageable pageable) {
-        if (tags == null) {
-            if (category == null) {
-                return repository.findAll(pageable);
-            }
-            return repository.findAllByCategory(category, pageable);
-        } else {
-            String[] tagsArray = tags.split(",");
-            if (category == null) {
-                return repository.findAllByTags(tagsArray, pageable);
-            }
-            return repository.findAllByCategoryAndTags(category, tagsArray, pageable);
-        }
     }
 
     @Override
@@ -156,6 +142,20 @@ public class DeckServiceImpl implements DeckService {
         return true;
     }
 
+    private Page<Deck> getDecksBySearch(String category, String tags, Pageable pageable) {
+        if (tags == null) {
+            if (category == null) {
+                return repository.findAll(pageable);
+            }
+            return repository.findAllByCategory(category, pageable);
+        } else {
+            String[] tagsArray = tags.split(",");
+            if (category == null) {
+                return repository.findAllByTags(tagsArray, pageable);
+            }
+            return repository.findAllByCategoryAndTags(category, tagsArray, pageable);
+        }
+    }
     private Page<Deck> getDecks(Page<Deck> decks) {
         for (Deck deck : decks) {
             try {
