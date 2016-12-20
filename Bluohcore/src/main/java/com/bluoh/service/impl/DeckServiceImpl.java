@@ -16,6 +16,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -169,6 +170,6 @@ public class DeckServiceImpl implements DeckService {
 
     private Pageable getPageable(int page) {
         int pagingLength = Integer.parseInt(env.getProperty("paging"));
-        return new PageRequest(page, pagingLength);
+        return new PageRequest(page, pagingLength, Sort.Direction.DESC, "publishedDate");
     }
 }
