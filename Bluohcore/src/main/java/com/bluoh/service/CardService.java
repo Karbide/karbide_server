@@ -12,6 +12,8 @@ public interface CardService {
 
     Card delete(String id);
 
+    void deleteByCard(Card card);
+
     List<Card> findAll();
 
     List<Card> find(Query query);

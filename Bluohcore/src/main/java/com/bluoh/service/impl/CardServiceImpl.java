@@ -18,7 +18,8 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -73,6 +74,15 @@ final class CardServiceImpl implements CardService {
 	}
 
 	@Override
+	public void deleteByCard(Card card) {
+		LOGGER.info("Deleting a card entry with id: {}", card.getId());
+
+		repository.delete(card);
+
+		LOGGER.info("Deleted card entry with informtation: {}", card.toString());
+	}
+
+	@Override
 	public List<Card> findAll() {
 		LOGGER.info("Finding all card entries.");
 		List<Card> cardEntries = repository.findAll();
@@ -116,21 +126,12 @@ final class CardServiceImpl implements CardService {
 	private Card findCardById(String id) {
         return repository.findOne(id);
     }
-	
-	/*private boolean CheckTags(Card card){
-		boolean bIsValid = false;
-		Tags tags = card.getTags();
-		tagrepo.find(tags);
-		return true;
-	}*/
-
 
 	@Override
 	public CardServe getUserCard(CardServe cardServe) {
 		CardIdList cardIdListBean = null;
 		if(cardServe.getId().equals("0")) {
 			Stream<CardIdBean> cardIdBeen = cardServeRepository.readAllByIdNotNull();
-			//cardIdBeen.forEach(System.out::println);
 			List<CardIdBean> cardIdList = cardIdBeen.collect(Collectors.toList());
 			cardIdListBean = new CardIdList();
 			cardIdListBean.setCardIdBeen(cardIdList);

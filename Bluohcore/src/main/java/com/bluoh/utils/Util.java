@@ -20,6 +20,10 @@ import java.util.Set;
  */
 public class Util {
 
+    private Util() {
+
+    }
+
     public static String sendNotification(Notification notification){
 
         final String apiKey = "AIzaSyBcKII4bmIodWmM2MRDei4R3-QQ3QRTKiw";
