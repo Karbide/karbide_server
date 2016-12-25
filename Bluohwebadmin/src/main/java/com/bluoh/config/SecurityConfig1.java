@@ -9,6 +9,8 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 /**
  * Created by Ashutosh on 11-10-2016.
@@ -16,14 +18,17 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
+@EnableWebMvc
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 public class SecurityConfig1 extends WebSecurityConfigurerAdapter{
 
     private final UserServiceImpl service;
+    private final CORSFilter corsFilter;
 
     @Autowired
-    public SecurityConfig1(UserServiceImpl service) {
+    public SecurityConfig1(UserServiceImpl service, CORSFilter corsFilter) {
         this.service = service;
+        this.corsFilter = corsFilter;
     }
 
     @Override
@@ -37,6 +42,7 @@ public class SecurityConfig1 extends WebSecurityConfigurerAdapter{
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic();
+        http.addFilterBefore(corsFilter, ChannelProcessingFilter.class);
     }
 
     /*@Override
