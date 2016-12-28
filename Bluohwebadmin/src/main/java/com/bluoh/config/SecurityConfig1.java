@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.access.channel.ChannelProcessingFilter;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 /**
  * Created by Ashutosh on 11-10-2016.
@@ -18,9 +17,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
-@EnableWebMvc
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
-public class SecurityConfig1 extends WebSecurityConfigurerAdapter{
+public class SecurityConfig1 extends WebSecurityConfigurerAdapter {
 
     private final UserServiceImpl service;
     private final CORSFilter corsFilter;
@@ -44,11 +42,6 @@ public class SecurityConfig1 extends WebSecurityConfigurerAdapter{
                 .httpBasic();
         http.addFilterBefore(corsFilter, ChannelProcessingFilter.class);
     }
-
-    /*@Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/image/");
-    }*/
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
