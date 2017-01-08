@@ -49,6 +49,13 @@ public class DeckController {
         return service.findById(deckId);
     }
 
+    @Secured({"ROLE_ADMIN"})
+    @RequestMapping(method = RequestMethod.DELETE, value = "/{deckId}")
+    @ResponseStatus(HttpStatus.OK)
+    public Deck DeleteDeck(@PathVariable("deckId") long deckId) {
+        return service.delete(deckId + "");
+    }
+
     @Secured({"ROLE_USER"})
     @RequestMapping(method = RequestMethod.PUT, value = "/update/{deckId}")
     @ResponseStatus(HttpStatus.OK)

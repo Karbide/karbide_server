@@ -78,12 +78,11 @@ public class DeckServiceImpl implements DeckService {
 
     @Override
     public Deck delete(String id) {
-        Deck response = new Deck();
         List<Card> cards = cardService.find(Query.query(Criteria.where("deckId").in(id)));
         for (Card card : cards) {
             cardService.deleteByCard(card);
         }
-        response = repository.findOne(id);
+        Deck response = repository.findOne(id);
         if (response != null) {
             repository.delete(response);
         } else {
