@@ -82,13 +82,13 @@ public class DeckServiceImpl implements DeckService {
         for (Card card : cards) {
             cardService.deleteByCard(card);
         }*/
-        Deck response = repository.findOne(id);
-        repository.delete(id);
-//        if (response != null) {
-//            repository.delete(response);
-//        } else {
-//            throw new CardNotFoundException(id);
-//        }
+        Deck response = findById(Long.parseLong(id));
+//        repository.delete(response);
+        if (response != null) {
+            repository.delete(response);
+        } else {
+            throw new CardNotFoundException(id);
+        }
         return response;
     }
 
