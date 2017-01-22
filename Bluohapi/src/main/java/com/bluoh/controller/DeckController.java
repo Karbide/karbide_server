@@ -51,7 +51,7 @@ public class DeckController {
     @Secured({"ROLE_USER"})
     @RequestMapping(method = RequestMethod.PUT, value = "/{deckId}")
     @ResponseStatus(HttpStatus.OK)
-    public Deck UpdateDeck(@PathVariable("deckId") long deckId, @RequestBody @Valid Deck deck) {
+    public Deck UpdateDeck(@PathVariable("deckId") long deckId, @RequestBody Deck deck) {
         deck.setDeckId(deckId);
         return service.update(deck);
     }
