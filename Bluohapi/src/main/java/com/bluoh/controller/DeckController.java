@@ -38,7 +38,6 @@ public class DeckController {
     @ResponseStatus(HttpStatus.OK)
     public Page<Deck> getAllDeck(@RequestParam int page, @RequestParam(required = false) String category, @RequestParam
             (required = false) String tags) {
-
         return service.findAll(page, category, tags);
     }
 
@@ -49,17 +48,29 @@ public class DeckController {
         return service.findById(deckId);
     }
 
+    @Secured({"ROLE_USER"})
+    @RequestMapping(method = RequestMethod.PUT, value = "/update/{deckId}")
+    @ResponseStatus(HttpStatus.OK)
+    public Deck UpdateDeck(@PathVariable("deckId") long deckId, @RequestBody @Valid Deck deck) {
+        deck.setDeckId(deckId);
+        return service.update(deck);
+    }
+
     @Secured({"ROLE_ADMIN"})
     @RequestMapping(method = RequestMethod.DELETE, value = "/{deckId}")
     @ResponseStatus(HttpStatus.OK)
-    public Deck DeleteDeck(@PathVariable("deckId") long deckId) {
-        return service.delete(deckId + "");
+    public HashMap<String, Object> DeleteDeck(@PathVariable("deckId") long deckId) {
+        HashMap<String, Object> response = new HashMap<>();
+        response.put("Deleted", service.delete(deckId + ""));
+        response.put("DeckId", deckId);
+        return response;
     }
 
     @Secured({"ROLE_USER"})
     @RequestMapping(method = RequestMethod.PUT, value = "/update/{deckId}")
     @ResponseStatus(HttpStatus.OK)
-    public HashMap<String, Object> UpdateDeck(@PathVariable("deckId") long deckId, @RequestBody @Valid DeckActivity
+    public HashMap<String, Object> UpdateDeckActivity(@PathVariable("deckId") long deckId, @RequestBody @Valid
+            DeckActivity
             deckActivity) {
         HashMap<String, Object> response = new HashMap<>();
         deckActivity.setDeckId(deckId);

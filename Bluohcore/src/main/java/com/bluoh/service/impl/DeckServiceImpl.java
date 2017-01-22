@@ -11,7 +11,10 @@ import com.bluoh.service.DeckService;
 import com.bluoh.service.SequenceService;
 import com.bluoh.utils.CardNotFoundException;
 import com.bluoh.utils.SequenceException;
+import com.bluoh.utils.Util;
 import com.mongodb.WriteResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,6 +33,8 @@ import java.util.List;
  */
 @Service
 public class DeckServiceImpl implements DeckService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(DeckServiceImpl.class);
 
     private final CardService cardService;
 
@@ -77,14 +82,27 @@ public class DeckServiceImpl implements DeckService {
 
 
     @Override
-    public Deck delete(String id) {
-        Deck response = findById(Long.parseLong(id));
-        if (response != null) {
-            repository.delete(response);
-        } else {
-            throw new CardNotFoundException(id);
+    public boolean delete(String id) {
+        WriteResult writeResult = mongoOperations.updateMulti(Query.query(Criteria.where("_id").in(Long.parseLong
+                (id))), Update.update("status", "Unpublished"), Deck.class);
+        if (writeResult.getN() == 0) {
+            return false;
         }
-        return response;
+        LOGGER.debug("Deck status set to Unpublished deckId:" + id);
+        return true;
+    }
+
+    @Override
+    public Deck update(Deck deck) {
+        LOGGER.info("Updating deck with information: {}", deck);
+        Deck original = findById(deck.getDeckId());
+        if (original == null) {
+            throw new CardNotFoundException(deck.getDeckId() + "");
+        }
+        Util.copyNonNullProperties(deck, original);
+        Deck updated = repository.save(original);
+        LOGGER.info("Updating deck with information: {}", deck);
+        return deck;
     }
 
     @Override
@@ -161,6 +179,7 @@ public class DeckServiceImpl implements DeckService {
             return repository.findAllByCategoryAndTags(category, tagsArray, pageable);
         }
     }
+
     private Page<Deck> getDecks(Page<Deck> decks) {
         for (Deck deck : decks) {
             try {

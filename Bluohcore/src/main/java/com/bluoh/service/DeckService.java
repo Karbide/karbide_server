@@ -10,7 +10,9 @@ import org.springframework.data.domain.Page;
 public interface DeckService {
     Deck create(Deck deck);
 
-    Deck delete(String id);
+    boolean delete(String id);
+
+    Deck update(Deck deck);
 
     Page<Deck> findAll(int page);
 
