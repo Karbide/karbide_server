@@ -49,7 +49,7 @@ public class DeckController {
     }
 
     @Secured({"ROLE_USER"})
-    @RequestMapping(method = RequestMethod.PUT, value = "/update/{deckId}")
+    @RequestMapping(method = RequestMethod.PUT, value = "/{deckId}")
     @ResponseStatus(HttpStatus.OK)
     public Deck UpdateDeck(@PathVariable("deckId") long deckId, @RequestBody @Valid Deck deck) {
         deck.setDeckId(deckId);
@@ -67,9 +67,9 @@ public class DeckController {
     }
 
     @Secured({"ROLE_USER"})
-    @RequestMapping(method = RequestMethod.PUT, value = "/update/{deck}")
+    @RequestMapping(method = RequestMethod.PUT, value = "/update/{deckId}")
     @ResponseStatus(HttpStatus.OK)
-    public HashMap<String, Object> UpdateDeckActivity(@PathVariable("deck") long deckId, @RequestBody @Valid
+    public HashMap<String, Object> UpdateDeckActivity(@PathVariable("deckId") long deckId, @RequestBody @Valid
             DeckActivity deckActivity) {
         HashMap<String, Object> response = new HashMap<>();
         deckActivity.setDeckId(deckId);
