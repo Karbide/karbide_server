@@ -67,11 +67,10 @@ public class DeckController {
     }
 
     @Secured({"ROLE_USER"})
-    @RequestMapping(method = RequestMethod.PUT, value = "/update/{deckId}")
+    @RequestMapping(method = RequestMethod.PUT, value = "/update/{deck}")
     @ResponseStatus(HttpStatus.OK)
-    public HashMap<String, Object> UpdateDeckActivity(@PathVariable("deckId") long deckId, @RequestBody @Valid
-            DeckActivity
-            deckActivity) {
+    public HashMap<String, Object> UpdateDeckActivity(@PathVariable("deck") long deckId, @RequestBody @Valid
+            DeckActivity deckActivity) {
         HashMap<String, Object> response = new HashMap<>();
         deckActivity.setDeckId(deckId);
         boolean isGood = service.updateDeckActivity(deckActivity);
