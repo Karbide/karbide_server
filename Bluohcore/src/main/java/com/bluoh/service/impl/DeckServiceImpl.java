@@ -84,11 +84,11 @@ public class DeckServiceImpl implements DeckService {
     @Override
     public boolean delete(String id) {
         WriteResult writeResult = mongoOperations.updateMulti(Query.query(Criteria.where("_id").in(Long.parseLong
-                (id))), Update.update("status", "Unpublished"), Deck.class);
+                (id))), Update.update("status", "UnPublished"), Deck.class);
         if (writeResult.getN() == 0) {
             return false;
         }
-        LOGGER.debug("Deck status set to Unpublished deckId:" + id);
+        LOGGER.debug("Deck status set to UnPublished deckId:" + id);
         return true;
     }
 
@@ -124,6 +124,18 @@ public class DeckServiceImpl implements DeckService {
         System.out.println("DeckServiceImpl.findAll deckId :" + deckId.toString());
         Pageable pageable = getPageable(page);
         Page<Deck> decks = repository.findAll(deckId, pageable);
+        return getDecks(decks);
+    }
+
+    @Override
+    public Page<Deck> findAll(int page, String status) {
+        LOGGER.info("Getting deck by status ", status);
+        Pageable pageable = getPageable(page);
+        if (status == null || status.equals("")) {
+            Page<Deck> decks = repository.findAll(pageable);
+            return getDecks(decks);
+        }
+        Page<Deck> decks = repository.findAllByStatus(status, pageable);
         return getDecks(decks);
     }
 

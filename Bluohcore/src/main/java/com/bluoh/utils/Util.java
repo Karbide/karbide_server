@@ -68,7 +68,10 @@ public class Util {
     }
 
     public static void copyNonNullProperties(Object src, Object target){
+        System.out.println("Util.copyNonNullProperties target before " + target.toString());
+        System.out.println("Util.copyNonNullProperties src before " + src.toString());
         BeanUtils.copyProperties(src, target, getNullPropertyNames(src));
+        System.out.println("Util.copyNonNullProperties target after " + target.toString());
     }
 
     private static String[] getNullPropertyNames (Object source) {
@@ -80,6 +83,7 @@ public class Util {
             Object srcValue = src.getPropertyValue(pd.getName());
             if (srcValue == null) emptyNames.add(pd.getName());
             if (pd.getName().equals("deckId")) emptyNames.add(pd.getName());
+            if (pd.getName().equals("cards") || pd.getName().equals("deckCards")) emptyNames.add(pd.getName());
         }
         String[] result = new String[emptyNames.size()];
         return emptyNames.toArray(result);

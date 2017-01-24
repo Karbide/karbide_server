@@ -42,6 +42,13 @@ public class DeckController {
     }
 
     @Secured({"ROLE_USER"})
+    @RequestMapping(value = "/web", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public Page<Deck> getAllDeckByStatus(@RequestParam int page, @RequestParam(required = false) String status) {
+        return service.findAll(page, status);
+    }
+
+    @Secured({"ROLE_USER"})
     @RequestMapping(method = RequestMethod.GET, value = "/{deckId}")
     @ResponseStatus(HttpStatus.OK)
     public Deck GetDeck(@PathVariable("deckId") long deckId) {

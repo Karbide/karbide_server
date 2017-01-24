@@ -58,12 +58,12 @@ public class Deck {
     private int likes;
 
     private int dislikes;
+
     @JsonIgnore
     @Field(value = "cards")
-//    @JsonProperty("cards")
     private List<DeckCard> deckCards = new ArrayList<>();
+
     @Transient
-//    @JsonIgnore
     private List<Card> cards = new ArrayList<>();
 
     private String apiFeedSource;
@@ -204,5 +204,28 @@ public class Deck {
 
     public void setAuthorHandle(String authorHandle) {
         this.authorHandle = authorHandle;
+    }
+
+    @Override
+    public String toString() {
+        return "Deck{" +
+                "deckId=" + deckId +
+                ", userId='" + userId + '\'' +
+                ", type='" + type + '\'' +
+                ", authorImage='" + authorImage + '\'' +
+                ", author='" + author + '\'' +
+                ", authorHandle='" + authorHandle + '\'' +
+                ", categories=" + categories +
+                ", tags=" + tags +
+                ", approver=" + approver +
+                ", publishedDate=" + publishedDate +
+                ", status='" + status + '\'' +
+                ", likes=" + likes +
+                ", dislikes=" + dislikes +
+                ", deckCards=" + deckCards +
+                ", cards=" + cards +
+                ", apiFeedSource='" + apiFeedSource + '\'' +
+                ", publisher='" + publisher + '\'' +
+                '}';
     }
 }

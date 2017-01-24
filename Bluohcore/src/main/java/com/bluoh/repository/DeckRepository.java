@@ -18,6 +18,9 @@ public interface DeckRepository extends MongoRepository<Deck, String> {
     @Query(value = "{ 'tags' : { $in : ?0 }, 'status' : 'Published' }", fields = "{cards : { $slice : 1 }}")
     Page<Deck> findAllByTags(String[] tags, Pageable pageable);
 
+    @Query(value = "{ 'status' : ?0 }", fields = "{cards : { $slice : 1 }}")
+    Page<Deck> findAllByStatus(String status, Pageable pageable);
+
     @Query(value = "{ 'status' : 'Published' }", fields = "{cards : { $slice : 1 }}")
     Page<Deck> findAll(Pageable pageable);
 

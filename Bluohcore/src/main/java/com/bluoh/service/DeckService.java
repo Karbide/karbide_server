@@ -20,8 +20,9 @@ public interface DeckService {
 
     Page<Deck> findAll(Long[] deckId, int page);
 
+    Page<Deck> findAll(int page, String status);
+
     Deck findById(long id);
 
     boolean updateDeckActivity(DeckActivity deckActivity);
-
 }
